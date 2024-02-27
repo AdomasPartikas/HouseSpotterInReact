@@ -3,8 +3,6 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
-appsettings.Development.json
-
 # dotenv files
 .env
 
@@ -484,3 +482,9 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+
+HouseSpotterInReact.Server/obj/
+HouseSpotterInReact.Server/bin/
+HouseSpotterInReact.Server/Properties/launchSettings.json
+HouseSpotterInReact.Server/appsettings.Development.json
