@@ -33,3 +33,4 @@ C:\Programming\HouseSpotterInReact\HouseSpotterInReact.Server\obj\Debug\net8.0\r
 C:\Programming\HouseSpotterInReact\HouseSpotterInReact.Server\obj\Debug\net8.0\HouseSpotterInReact.Server.pdb
 C:\Programming\HouseSpotterInReact\HouseSpotterInReact.Server\obj\Debug\net8.0\HouseSpotterInReact.Server.genruntimeconfig.cache
 C:\Programming\HouseSpotterInReact\HouseSpotterInReact.Server\obj\Debug\net8.0\ref\HouseSpotterInReact.Server.dll
+c:\Programming\HouseSpotterInReact\HouseSpotterInReact.Server\obj\Debug\net8.0\HouseSpotterInReact.Server.sourcelink.json
