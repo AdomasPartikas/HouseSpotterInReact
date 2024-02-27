@@ -486,5 +486,4 @@ $RECYCLE.BIN/
 
 HouseSpotterInReact.Server/obj/
 HouseSpotterInReact.Server/bin/
-HouseSpotterInReact.Server/Properties/launchSettings.json
 HouseSpotterInReact.Server/appsettings.Development.json
