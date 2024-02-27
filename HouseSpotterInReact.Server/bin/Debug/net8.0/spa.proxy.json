@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:5173",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
-"WorkingDirectory": "C:\\Programming\\HouseSpotterInReact\\HouseSpotterInReact.Server\\..\\housespotterinreact.client",
+"WorkingDirectory": "c:\\Programming\\HouseSpotterInReact\\HouseSpotterInReact.Server\\..\\housespotterinreact.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
