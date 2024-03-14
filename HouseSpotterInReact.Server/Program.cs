@@ -23,6 +23,17 @@ builder.Services.AddDbContext<HousingContext>(options =>
 
 builder.Services.AddMvc();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -42,6 +53,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
+
+app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {
