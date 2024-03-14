@@ -1,4 +1,4 @@
-namespace HouseSpotter.Utils
+namespace HouseSpotter.Server.Utils
 {
     public class UserAgents
     {

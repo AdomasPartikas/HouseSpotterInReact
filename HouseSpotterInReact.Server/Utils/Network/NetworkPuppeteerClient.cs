@@ -1,6 +1,6 @@
 using PuppeteerSharp;
 
-namespace HouseSpotter.Utils
+namespace HouseSpotter.Server.Utils
 {
     public class NetworkPuppeteerClient
     {
