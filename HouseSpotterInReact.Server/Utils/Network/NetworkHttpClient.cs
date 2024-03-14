@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace HouseSpotter.Utils
+namespace HouseSpotter.Server.Utils
 {
     public class NetworkHttpClient
     {
