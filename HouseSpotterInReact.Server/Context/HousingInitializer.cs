@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using HouseSpotter.Server.Models;
 using HouseSpotter.Server.Context;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace HouseSpotter.Server.DAL
 {
@@ -15,6 +13,8 @@ namespace HouseSpotter.Server.DAL
             // Look for any housings.
             if (context.Housings.Any())
             {
+                var logger = context.GetService<ILogger<Program>>();
+                logger.LogInformation("The database has already been seeded.");
                 return;   // DB has been seeded
             }
 
