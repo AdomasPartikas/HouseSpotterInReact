@@ -1,8 +1,12 @@
-namespace HouseSpotter.Models
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HouseSpotter.Server.Models
 {
-    public class HouseDTO
+    public class Housing
     {
+        public int ID { get; set; }
         public string? AnketosKodas { get; set; }
+        public byte[]? Nuotrauka { get; set; }
         public string? Link { get; set; }
         public string? BustoTipas { get; set; }
         public string? Title { get; set; }

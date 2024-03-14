@@ -1,34 +1,185 @@
 using HtmlAgilityPack;
-using HouseSpotter.Utils;
+using HouseSpotter.Server.Utils;
 using System.Diagnostics;
-using HouseSpotter.Models;
+using HouseSpotter.Server.Models;
 using System.Text.RegularExpressions;
+using HouseSpotter.Server.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
-namespace HouseSpotter.Scrapers
+namespace HouseSpotter.Server.Scrapers
 {
     public class ScraperForAruodas
     {
         private Random random = new Random();
         private ScraperClient _scraperClient;
-        
+        private HousingContext _housingContext;
         private ILogger<ScraperForAruodas> _logger;
-        public ScraperForAruodas(ScraperClient scraperClient, ILogger<ScraperForAruodas> logger)
+        public ScraperForAruodas(ScraperClient scraperClient, ILogger<ScraperForAruodas> logger, HousingContext housingContext)
         {
             _scraperClient = scraperClient;
             _logger = logger;
+            _housingContext = housingContext;
         }
         ~ScraperForAruodas()
         {
             _scraperClient.EndScrape().Wait();
         }
-        public async Task GetHousingDetails(string url, string bustoTipas)
+
+        private async Task EndScrape()
+        {
+            await _scraperClient.EndScrape();
+        }
+
+        public async Task<ScrapeInformation> EnrichNewHousingsWithDetails()
+        {
+            var housingList = await _housingContext.Housings.Where(h => !String.IsNullOrEmpty(h.Link) && String.IsNullOrEmpty(h.AnketosKodas)).ToListAsync();
+
+            _scraperClient.ScrapeStartDate = DateTime.Now;
+            _scraperClient.TotalQueries = await _housingContext.Housings.CountAsync();
+
+            foreach (var housing in housingList)
+            {
+                try
+                {
+                    await GetHousingDetails(housing.Link, housing.BustoTipas);
+                    _scraperClient.NewQueries++;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"[{DateTimeOffset.Now}] Error while updating housing details for {housing.Link}");
+                }
+            }
+            _scraperClient.ScrapeEndDate = DateTime.Now;
+            var result = new ScrapeInformation { Message = "Enriching housing details finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+
+            await EndScrape();
+
+            return result;
+        }
+        public async Task<ScrapeInformation> FindRecentHousingPosts()
+        {
+            _scraperClient.ScrapeStartDate = DateTime.Now;
+
+            for (int h = 0; h < 4; h++)
+            {
+                string siteEndpoint = h switch
+                {
+                    0 => "namai",
+                    1 => "namu-nuoma",
+                    2 => "butai",
+                    3 => "butu-nuoma",
+                    _ => "namai"
+                };
+
+                Debug.WriteLine($"[{DateTimeOffset.Now}] Running FindApartaments for Aruodas with {siteEndpoint} endpoint");
+
+                string url = $"https://m.aruodas.lt/{siteEndpoint}/?FOrder=AddDate/";
+                string pageUrl = url;
+                int pageCount = 1;
+
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    Thread.Sleep((int)_scraperClient.SpeedLimit!); //Stopping to not get flagged as a robot
+
+                    if (i > 1)
+                        pageUrl = url + $"puslapis/{i}/";
+
+                    string html = "";
+                    var doc = new HtmlDocument();
+
+                    try
+                    {
+                        if (!_scraperClient.NetworkPuppeteerClient.PuppeteerInitialized)
+                        {
+                            await _scraperClient.NetworkPuppeteerClient.Initialize();
+                            await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GetCookiesAsync("https://m.aruodas.lt/");
+                            Thread.Sleep(125);
+                        }
+
+                        await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GoToAsync(pageUrl);
+                        html = await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GetContentAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogCritical(ex, $"[{DateTimeOffset.Now}]PuppeteerSharp failed to get {pageUrl}");
+                        return new ScrapeInformation { Message = "PuppeteerSharp failed to get " + pageUrl, ScrapeSucceded = false };
+                    }
+
+                    doc = new HtmlDocument();
+                    doc.LoadHtml(html);
+
+                    if (pageCount == 1)
+                    {
+                        var pageSelect = doc.DocumentNode.Descendants("div")
+                            .Where(node => node.GetAttributeValue("class", "")
+                            .Equals("page-select-v2")).FirstOrDefault();
+
+                        var node = pageSelect!.Descendants("a").FirstOrDefault()!.InnerText;
+
+                        pageCount = Convert.ToInt32(node.Remove(0, 21).Trim());
+                    }
+
+                    var abstractList = doc.DocumentNode.Descendants("ul")
+                        .Where(node => node.GetAttributeValue("class", "")
+                        .Equals("search-result-list-big_thumbs")).ToList();
+
+                    var listOfSelections = abstractList[0].Descendants("li").ToList();
+
+                    foreach (var item in listOfSelections)
+                    {
+
+                        var tip = item.Descendants("a")
+                                .Where(node => node.GetAttributeValue("class", "")
+                                .Equals("result-item-info-container-big_thumbs"))
+                                .FirstOrDefault();
+
+                        if (tip != null)
+                        {
+                            var text = "https://m.aruodas.lt" + tip.GetAttributeValue("href", "");
+                            _scraperClient.TotalQueries++;
+
+                            var existingHousing = await _housingContext.Housings.FirstOrDefaultAsync(h => h.Link == text);
+
+                            if (existingHousing == null)
+                            {
+                                try
+                                {
+                                    await SaveResult(true, text);
+                                }
+                                catch (Exception e)
+                                {
+                                    _logger.LogError(e, $"[{DateTimeOffset.Now}] Error while getting details for {text}");
+                                }
+                            }
+                            else
+                            {
+                                _scraperClient.ScrapeEndDate = DateTime.Now;
+                                var r = new ScrapeInformation { Message = "Recent post scraping finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+
+                                await EndScrape();
+
+                                return r;
+                            }
+                        }
+                    }
+                }
+            }
+            _scraperClient.ScrapeEndDate = DateTime.Now;
+            var result = new ScrapeInformation { Message = "Recent post scraping finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+
+            await EndScrape();
+
+            return result;
+        }
+        private async Task GetHousingDetails(string url, string bustoTipas)
         {
             Thread.Sleep((int)_scraperClient.SpeedLimit!); //Stopping to not get flagged as a robot
 
             string html = "";
             var doc = new HtmlDocument();
 
-            var house = new HouseDTO();
+            var house = new Housing();
 
             try
             {
@@ -57,26 +208,49 @@ namespace HouseSpotter.Scrapers
             string title = "N/A";
             double price = 0;
 
-            if (header.Count == 1)
+            if (header.Count == 0)
             {
                 header = doc.DocumentNode.Descendants("div")
                    .Where(node => node.GetAttributeValue("class", "")
                     .Equals("advert-info-header  in-project ")).ToList();
 
                 title = header[0].Descendants("h1").FirstOrDefault()!.InnerText.Trim();
-                price = Convert.ToDouble(header[0].Descendants("span").FirstOrDefault()!.InnerText.TrimEnd('€').Trim().Replace(" ", ""));
+                price = Convert.ToDouble(header[0].Descendants("span").Where(node => node.GetAttributeValue("class", "")
+                .Equals("main-price")).FirstOrDefault()!.InnerText.TrimEnd('€').Trim().Replace(" ", ""));
             }
             else
             {
-                title = header[1].Descendants("h1").FirstOrDefault()!.InnerText.Trim();
-                price = Convert.ToDouble(header[1].Descendants("span").FirstOrDefault()!.InnerText.TrimEnd('€').Trim().Replace(" ", ""));
+                try
+                {
+                    title = header[0].Descendants("h1").FirstOrDefault()!.InnerText.Trim();
+                    price = Convert.ToDouble(header[0].Descendants("span").Where(node => node.GetAttributeValue("class", "")
+                    .Equals("main-price")).FirstOrDefault()!.InnerText.TrimEnd('€').Trim().Replace(" ", ""));
+                }
+                catch
+                {
+                    try
+                    {
+                        header = doc.DocumentNode.Descendants("div")
+                            .Where(node => node.GetAttributeValue("class", "")
+                            .Equals("advert-info-header  in-project ")).ToList();
+
+                        title = header[0].Descendants("h1").FirstOrDefault()!.InnerText.Trim();
+                        price = Convert.ToDouble(header[0].Descendants("span").Where(node => node.GetAttributeValue("class", "")
+                            .Equals("main-price")).FirstOrDefault()!.InnerText.TrimEnd('€').Trim().Replace(" ", ""));
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, $"[{DateTimeOffset.Now}] Error while getting price for {url}");
+                        return;
+                    }
+                }
             }
 
             house.Link = url;
             house.Title = title;
             house.Kaina = price;
             house.BustoTipas = bustoTipas;
-            house.AnketosKodas = Regex.Match(url, @"\d{6,7}").Value;
+            house.AnketosKodas = Regex.Match(url, @"\d{5,7}").Value;
             house.Aprasymas = doc.DocumentNode.Descendants("div")
                 .Where(node => node.GetAttributeValue("id", "")
                 .Equals("collapsedText")).FirstOrDefault()!.InnerText;
@@ -246,119 +420,194 @@ namespace HouseSpotter.Scrapers
                 }
             }
 
-            Debug.WriteLine($"[{DateTimeOffset.Now}] {house.Title} - {house.Kaina}€");
-            Debug.WriteLine($"Anketos Kodas: {house.AnketosKodas}");
-            Debug.WriteLine($"Link'as: {house.Link}");
-            Debug.WriteLine($"Busto tipas: {house.BustoTipas}");
-            Debug.WriteLine($"Kaina: {house.Kaina.ToString()}");
-            Debug.WriteLine($"Kaina men.: {house.KainaMen.ToString()}");
-            Debug.WriteLine($"Namo numeris: {house.NamoNumeris}");
-            Debug.WriteLine($"Buto numeris: {house.ButoNumeris}");
-            Debug.WriteLine($"Kambariu sk: {house.KambariuSk.ToString()}");
-            Debug.WriteLine($"Plotas: {house.Plotas.ToString()}");
-            Debug.WriteLine($"Aukstas: {house.Aukstas.ToString()}");
-            Debug.WriteLine($"Aukstu sk.: {house.AukstuSk.ToString()}");
-            Debug.WriteLine($"Metai: {house.Metai.ToString()}");
-            Debug.WriteLine($"Irengimas: {house.Irengimas}");
-            Debug.WriteLine($"Pastato tipas: {house.PastatoTipas}");
-            Debug.WriteLine($"Sildymas: {house.Sildymas}");
-            Debug.WriteLine($"Energijos klase: {house.PastatoEnergijosSuvartojimoKlase}");
-            Debug.WriteLine($"Ypatybes: {house.Ypatybes}");
-            Debug.WriteLine($"Papildomos patalpos: {house.PapildomosPatalpos}");
-            Debug.WriteLine($"Papildoma iranga: {house.PapildomaIranga}");
-            Debug.WriteLine($"Apsauga: {house.Apsauga}");
+            await SaveResult(true, house);
+            return;
         }
-        public async Task FindHousing(string siteEndpoint)
+        public async Task<ScrapeInformation> FindAllHousingPosts()
         {
-            Debug.WriteLine($"[{DateTimeOffset.Now}] Running FindApartaments for Aruodas with {siteEndpoint} endpoint");
+            _scraperClient.ScrapeStartDate = DateTime.Now;
 
-            string url = $"https://m.aruodas.lt/{siteEndpoint}/";
-            string pageUrl = url;
-            int pageCount = 1;
-
-            for (int i = 1; i <= pageCount; i++)
+            for (int h = 0; h < 4; h++)
             {
-                Thread.Sleep((int)_scraperClient.SpeedLimit!); //Stopping to not get flagged as a robot
-
-                if (i > 1)
-                    pageUrl = url + $"puslapis/{i}/";
-
-                string html = "";
-                var doc = new HtmlDocument();
-
-                try
+                string siteEndpoint = h switch
                 {
-                    if (!_scraperClient.NetworkPuppeteerClient.PuppeteerInitialized)
+                    0 => "namai",
+                    1 => "namu-nuoma",
+                    2 => "butai",
+                    3 => "butu-nuoma",
+                    _ => "namai"
+                };
+
+                Debug.WriteLine($"[{DateTimeOffset.Now}] Running FindApartaments for Aruodas with {siteEndpoint} endpoint");
+
+                string url = $"https://m.aruodas.lt/{siteEndpoint}/";
+                string pageUrl = url;
+                int pageCount = 1;
+
+                for (int i = 1; i <= 1; i++) // i<=should be pageCount
+                {
+                    Thread.Sleep((int)_scraperClient.SpeedLimit!); //Stopping to not get flagged as a robot
+
+                    if (i > 1)
+                        pageUrl = url + $"puslapis/{i}/";
+
+                    string html = "";
+                    var doc = new HtmlDocument();
+
+                    try
                     {
-                        await _scraperClient.NetworkPuppeteerClient.Initialize();
-                        await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GetCookiesAsync("https://m.aruodas.lt/");
-                        Thread.Sleep(125);
+                        if (!_scraperClient.NetworkPuppeteerClient.PuppeteerInitialized)
+                        {
+                            await _scraperClient.NetworkPuppeteerClient.Initialize();
+                            await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GetCookiesAsync("https://m.aruodas.lt/");
+                            Thread.Sleep(125);
+                        }
+
+                        await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GoToAsync(pageUrl);
+                        html = await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GetContentAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogCritical(ex, $"[{DateTimeOffset.Now}]PuppeteerSharp failed to get {pageUrl}");
+                        await EndScrape();
+                        return new ScrapeInformation { Message = "PuppeteerSharp failed to get " + pageUrl, ScrapeSucceded = false };
                     }
 
-                    await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GoToAsync(pageUrl);
-                    html = await _scraperClient.NetworkPuppeteerClient.PuppeteerPage!.GetContentAsync();
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogCritical(ex, $"[{DateTimeOffset.Now}]PuppeteerSharp failed to get {pageUrl}");
-                    return;
-                }
+                    doc = new HtmlDocument();
+                    doc.LoadHtml(html);
 
-                doc = new HtmlDocument();
-                doc.LoadHtml(html);
-
-                if (pageCount == 1)
-                {
-                    var pageSelect = doc.DocumentNode.Descendants("div")
-                        .Where(node => node.GetAttributeValue("class", "")
-                        .Equals("page-select-v2")).FirstOrDefault();
-
-                    var node = pageSelect!.Descendants("a").FirstOrDefault()!.InnerText;
-
-                    pageCount = Convert.ToInt32(node.Remove(0, 21).Trim());
-                }
-
-                var abstractList = doc.DocumentNode.Descendants("ul")
-                    .Where(node => node.GetAttributeValue("class", "")
-                    .Equals("search-result-list-big_thumbs")).ToList();
-
-                var listOfSelections = abstractList[0].Descendants("li").ToList();
-
-                foreach (var item in listOfSelections)
-                {
-
-                    var tip = item.Descendants("a")
+                    if (pageCount == 1)
+                    {
+                        var pageSelect = doc.DocumentNode.Descendants("div")
                             .Where(node => node.GetAttributeValue("class", "")
-                            .Equals("result-item-info-container-big_thumbs"))
-                            .FirstOrDefault();
+                            .Equals("page-select-v2")).FirstOrDefault();
 
-                    if (tip != null)
+                        var node = pageSelect!.Descendants("a").FirstOrDefault()!.InnerText;
+
+                        pageCount = Convert.ToInt32(node.Remove(0, 21).Trim());
+                    }
+
+                    var abstractList = doc.DocumentNode.Descendants("ul")
+                        .Where(node => node.GetAttributeValue("class", "")
+                        .Equals("search-result-list-big_thumbs")).ToList();
+
+                    var listOfSelections = abstractList[0].Descendants("li").ToList();
+
+                    foreach (var item in listOfSelections)
                     {
-                        var text = "https://m.aruodas.lt/" + tip.GetAttributeValue("href", "");
 
-                        try
+                        var tip = item.Descendants("a")
+                                .Where(node => node.GetAttributeValue("class", "")
+                                .Equals("result-item-info-container-big_thumbs"))
+                                .FirstOrDefault();
+
+                        if (tip != null)
                         {
-                            SaveResult(false, text);
-                            await GetHousingDetails(text, siteEndpoint); //For testing purposes
-                            _scraperClient.Queries++;
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.LogError(e, $"[{DateTimeOffset.Now}] Error while getting details for {text}");
+                            var text = "https://m.aruodas.lt" + tip.GetAttributeValue("href", "");
+
+                            try
+                            {
+                                await SaveResult(true, text);
+                                _scraperClient.TotalQueries++;
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.LogError(e, $"[{DateTimeOffset.Now}] Error while getting details for {text}");
+                            }
                         }
                     }
-                }
 
-                Debug.WriteLine($"[{DateTimeOffset.Now}] <{i}/{pageCount}> Total queries made so far: {_scraperClient.Queries} in /{siteEndpoint}/");
-                return; //For testing purposes
+                    Debug.WriteLine($"[{DateTimeOffset.Now}] <{i}/{pageCount}> Total queries made so far: {_scraperClient.TotalQueries} in /{siteEndpoint}/");
+                }
             }
+            _scraperClient.ScrapeEndDate = DateTime.Now;
+            var result = new ScrapeInformation { Message = "Recent post scraping finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+
+            await EndScrape();
+
+            return result;
         }
-        public void SaveResult(bool savingDto, object result)
+        private async Task SaveResult(bool savingDto, object result)
         {
             if (savingDto)
             {
-                var house = result as HouseDTO;
-                //Something something something.......
+                if (result is Housing)
+                {
+                    var housing = result as Housing;
+
+                    var existingHousing = await _housingContext.Housings.FirstOrDefaultAsync(h => h.Link == housing!.Link);
+
+                    if (existingHousing != null)
+                    {
+                        existingHousing.AnketosKodas = housing!.AnketosKodas;
+                        existingHousing.Nuotrauka = housing.Nuotrauka;
+                        existingHousing.Link = housing.Link;
+                        existingHousing.BustoTipas = housing.BustoTipas;
+                        existingHousing.Title = housing.Title;
+                        existingHousing.Kaina = housing.Kaina;
+                        existingHousing.KainaMen = housing.KainaMen;
+                        existingHousing.NamoNumeris = housing.NamoNumeris;
+                        existingHousing.ButoNumeris = housing.ButoNumeris;
+                        existingHousing.KambariuSk = housing.KambariuSk;
+                        existingHousing.Plotas = housing.Plotas;
+                        existingHousing.SklypoPlotas = housing.SklypoPlotas;
+                        existingHousing.Aukstas = housing.Aukstas;
+                        existingHousing.AukstuSk = housing.AukstuSk;
+                        existingHousing.Metai = housing.Metai;
+                        existingHousing.Irengimas = housing.Irengimas;
+                        existingHousing.NamoTipas = housing.NamoTipas;
+                        existingHousing.PastatoTipas = housing.PastatoTipas;
+                        existingHousing.Sildymas = housing.Sildymas;
+                        existingHousing.PastatoEnergijosSuvartojimoKlase = housing.PastatoEnergijosSuvartojimoKlase;
+                        existingHousing.Ypatybes = housing.Ypatybes;
+                        existingHousing.PapildomosPatalpos = housing.PapildomosPatalpos;
+                        existingHousing.PapildomaIranga = housing.PapildomaIranga;
+                        existingHousing.Apsauga = housing.Apsauga;
+                        existingHousing.Vanduo = housing.Vanduo;
+                        existingHousing.IkiTelkinio = housing.IkiTelkinio;
+                        existingHousing.ArtimiausiasTelkinys = housing.ArtimiausiasTelkinys;
+                        existingHousing.RCNumeris = housing.RCNumeris;
+                        existingHousing.Aprasymas = housing.Aprasymas;
+
+                        await _housingContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        _housingContext.Housings.Add(housing!);
+                        await _housingContext.SaveChangesAsync();
+                    }
+                }
+                else if (result is string)
+                {
+                    var text = result as String;
+
+                    var existingHousing = await _housingContext.Housings.FirstOrDefaultAsync(h => h.Link == text);
+
+                    if (existingHousing == null)
+                    {
+                        _scraperClient.NewQueries++;
+
+                        var housing = new Housing
+                        {
+                            Link = text,
+                            BustoTipas = text!.Remove(0, 21) switch
+                            {
+                                string s when s.StartsWith("butu-nuoma") => "butu-nuoma",
+                                string s when s.StartsWith("namu-nuoma") => "namu-nuoma",
+                                string s when s.StartsWith("butai") => "butai",
+                                string s when s.StartsWith("namai") => "namai",
+                                _ => null
+                            }
+                        };
+
+                        _housingContext.Housings.Add(housing);
+                        await _housingContext.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    _logger.LogError($"[{DateTimeOffset.Now}] Error while saving result");
+                }
             }
             else
             {
