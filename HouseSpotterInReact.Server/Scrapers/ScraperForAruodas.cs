@@ -1,10 +1,10 @@
 using HtmlAgilityPack;
-using HouseSpotter.Utils;
+using HouseSpotter.Server.Utils;
 using System.Diagnostics;
-using HouseSpotter.Models;
+using HouseSpotter.Server.Models;
 using System.Text.RegularExpressions;
 
-namespace HouseSpotter.Scrapers
+namespace HouseSpotter.Server.Scrapers
 {
     public class ScraperForAruodas
     {
@@ -28,7 +28,7 @@ namespace HouseSpotter.Scrapers
             string html = "";
             var doc = new HtmlDocument();
 
-            var house = new HouseDTO();
+            var house = new Housing();
 
             try
             {
@@ -357,7 +357,7 @@ namespace HouseSpotter.Scrapers
         {
             if (savingDto)
             {
-                var house = result as HouseDTO;
+                var house = result as Housing;
                 //Something something something.......
             }
             else

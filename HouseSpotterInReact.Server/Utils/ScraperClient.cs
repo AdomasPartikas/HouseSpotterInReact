@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 using PuppeteerSharp;
 using System.Diagnostics;
 
-namespace HouseSpotter.Utils
+namespace HouseSpotter.Server.Utils
 {
     public class ScraperClient
     {
