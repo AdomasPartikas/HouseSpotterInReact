@@ -19,9 +19,6 @@ namespace HouseSpotter.Server.Utils
         {
             _configuration = configuration;
 
-            SqlConnection.ConnectionString = _configuration.GetValue<string>("Db:ConnectionString") ?? "";
-            UsingSql = String.IsNullOrEmpty(SqlConnection.ConnectionString) ? false : true;
-
             this.SpeedLimit = _configuration.GetValue<int?>("Scraper:SpeedLimit") ?? 100;
 
             NetworkHttpClient = new NetworkHttpClient();
@@ -32,10 +29,9 @@ namespace HouseSpotter.Server.Utils
         {
             Debug.WriteLine($"[{DateTimeOffset.Now}] Garbage collecting...");
 
-            if (SqlConnection != null)
-            {
-                SqlConnection.Close();
-            }
+            TotalQueries = 0;
+            NewQueries = 0;
+
             if (NetworkHttpClient != null)
             {
                 await NetworkHttpClient.Destroy();
@@ -50,15 +46,13 @@ namespace HouseSpotter.Server.Utils
         }
 
         public bool UsingSql = false;
-        public MySqlConnection? SqlConnection = new MySqlConnection();
-        public MySqlCommand? SqlCommand;
         public NetworkHttpClient NetworkHttpClient;
         public NetworkPuppeteerClient NetworkPuppeteerClient;
-        public int Queries;
+        public int NewQueries;
+        public int TotalQueries;
         public int? SpeedLimit;
-        public DateTime PageScanStartDate;
-        public DateTime PageScanEndDate;
+        public DateTime ScrapeStartDate;
+        public DateTime ScrapeEndDate;
         public bool SkipPage = false;
-        public TimeSpan TotalScrapeTimer;
     }
 }
