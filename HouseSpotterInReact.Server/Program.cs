@@ -4,6 +4,7 @@ using HouseSpotter.Server.DAL;
 using HouseSpotter.Server.Scrapers;
 using HouseSpotter.Server.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ScraperClient>();
 builder.Services.AddScoped<ScraperForAruodas>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 builder.Services.AddDbContext<HousingContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))
     ));
@@ -34,6 +37,16 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.Error = (sender, args) =>
+        {
+            args.ErrorContext.Handled = true;
+        };
+    });
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -47,6 +60,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
