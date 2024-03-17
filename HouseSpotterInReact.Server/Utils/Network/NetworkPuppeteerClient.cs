@@ -2,8 +2,15 @@ using PuppeteerSharp;
 
 namespace HouseSpotter.Server.Utils
 {
+    /// <summary>
+    /// Represents a client for interacting with Puppeteer network automation library.
+    /// </summary>
     public class NetworkPuppeteerClient
     {
+        /// <summary>
+        /// Destroys the Puppeteer client by closing and disposing the browser and page instances.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Destroy()
         {
             if (PuppeteerPage != null)
@@ -18,6 +25,11 @@ namespace HouseSpotter.Server.Utils
             }
             PuppeteerInitialized = false;
         }
+
+        /// <summary>
+        /// Initializes the Puppeteer client by downloading the browser, launching it, and creating a new page instance.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Initialize()
         {
             await new BrowserFetcher().DownloadAsync();
@@ -35,8 +47,20 @@ namespace HouseSpotter.Server.Utils
 
             PuppeteerInitialized = true;
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Puppeteer client has been initialized.
+        /// </summary>
         public bool PuppeteerInitialized = false;
+
+        /// <summary>
+        /// Gets or sets the Puppeteer browser instance.
+        /// </summary>
         public IBrowser? PuppeeteerBrowser;
+
+        /// <summary>
+        /// Gets or sets the Puppeteer page instance.
+        /// </summary>
         public IPage? PuppeteerPage;
     }
 }

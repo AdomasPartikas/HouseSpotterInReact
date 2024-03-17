@@ -9,28 +9,50 @@ using Microsoft.VisualBasic;
 
 namespace HouseSpotter.Server.Scrapers
 {
+    /// <summary>
+    /// Represents a scraper for the Aruodas website.
+    /// </summary>
     public class ScraperForAruodas
     {
         private Random random = new Random();
         private ScraperClient _scraperClient;
         private HousingContext _housingContext;
         private ILogger<ScraperForAruodas> _logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScraperForAruodas"/> class.
+        /// </summary>
+        /// <param name="scraperClient">The scraper client.</param>
+        /// <param name="logger">The logger.</param>
+        /// <param name="housingContext">The housing context.</param>
         public ScraperForAruodas(ScraperClient scraperClient, ILogger<ScraperForAruodas> logger, HousingContext housingContext)
         {
             _scraperClient = scraperClient;
             _logger = logger;
             _housingContext = housingContext;
         }
+
+        /// <summary>
+        /// Finalizer that ensures the scrape is ended before the object is garbage collected.
+        /// </summary>
         ~ScraperForAruodas()
         {
             _scraperClient.EndScrape().Wait();
         }
 
+        /// <summary>
+        /// Ends the scrape process.
+        /// </summary>
         private async Task EndScrape()
         {
             await _scraperClient.EndScrape();
         }
 
+        /// <summary>
+        /// Enriches new housings with details.
+        /// All the new housing posts are enriched with details.
+        /// </summary>
+        /// <returns>The scrape result.</returns>
         public async Task<Scrape> EnrichNewHousingsWithDetails()
         {
             var housingList = await _housingContext.Housings.Where(h => !String.IsNullOrEmpty(h.Link) && String.IsNullOrEmpty(h.AnketosKodas)).ToListAsync();
@@ -57,6 +79,11 @@ namespace HouseSpotter.Server.Scrapers
 
             return result;
         }
+
+        /// <summary>
+        /// Finds recent housing posts.
+        /// </summary>
+        /// <returns>The scrape result.</returns>
         public async Task<Scrape> FindRecentHousingPosts()
         {
             _scraperClient.ScrapeStartDate = DateTime.Now;
@@ -172,6 +199,12 @@ namespace HouseSpotter.Server.Scrapers
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the housing details.
+        /// </summary>
+        /// <param name="url">The URL of the housing.</param>
+        /// <param name="bustoTipas">The type of housing.</param>
         private async Task GetHousingDetails(string url, string bustoTipas)
         {
             Thread.Sleep((int)_scraperClient.SpeedLimit!); //Stopping to not get flagged as a robot
@@ -423,6 +456,11 @@ namespace HouseSpotter.Server.Scrapers
             await SaveResult(true, house);
             return;
         }
+
+        /// <summary>
+        /// Finds all housing posts.
+        /// </summary>
+        /// <returns></returns>
         public async Task<Scrape> FindAllHousingPosts()
         {
             _scraperClient.ScrapeStartDate = DateTime.Now;
@@ -527,6 +565,7 @@ namespace HouseSpotter.Server.Scrapers
 
             return result;
         }
+        
         private async Task SaveResult(bool savingDto, object result)
         {
             if (savingDto)
