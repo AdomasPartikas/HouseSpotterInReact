@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace HouseSpotter.Server.Controllers
 {
+    /// <summary>
+    /// Controller for housing scraping operations.
+    /// </summary>
     [ApiController]
     [Produces("application/json")]
     [Route("housespotter/scrapers")]
@@ -18,6 +21,12 @@ namespace HouseSpotter.Server.Controllers
         private readonly ScraperForAruodas _scraperForAruodas;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HousingScraperController"/> class.
+        /// </summary>
+        /// <param name="housingContext"></param>
+        /// <param name="scraperForAruodas"></param>
+        /// <param name="mapper"></param>
         public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, IMapper mapper)
         {
             _scraperForAruodas = scraperForAruodas;
@@ -25,6 +34,10 @@ namespace HouseSpotter.Server.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Finds all housing posts from Aruodas website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
         [HttpPost("aruodas/findhousing/all")]
         [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -44,6 +57,10 @@ namespace HouseSpotter.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Finds recent housing posts from Aruodas website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
         [HttpPost("aruodas/findhousing/recent")]
         [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,6 +80,10 @@ namespace HouseSpotter.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Enriches new housing posts with additional details from Aruodas website.
+        /// </summary>
+        /// <returns>The enriched housing data.</returns>
         [HttpPost("aruodas/enrichhousing")]
         [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -83,17 +104,28 @@ namespace HouseSpotter.Server.Controllers
         }
     }
 
+    /// <summary>
+    /// Controller for housing database operations.
+    /// </summary>
     [ApiController]
     [Produces("application/json")]
     [Route("housespotter/db")]
     public class HousingDbController : ControllerBase
     {
         private HousingContext _housingContext;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HousingDbController"/> class.
+        /// </summary>
+        /// <param name="housingContext"></param>
         public HousingDbController(HousingContext housingContext)
         {
             _housingContext = housingContext;
         }
 
+        /// <summary>
+        /// Gets all housing data from the database.
+        /// </summary>
+        /// <returns>The list of housing data.</returns>
         [HttpGet("getallhousing")]
         [ProducesResponseType<Housing>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -110,6 +142,12 @@ namespace HouseSpotter.Server.Controllers
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+
+        /// <summary>
+        /// Logs in a user with the provided credentials.
+        /// </summary>
+        /// <param name="user">The user login information.</param>
+        /// <returns>The logged in user.</returns>
         [HttpPost("user/login")]
         [ProducesResponseType<User>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -126,6 +164,12 @@ namespace HouseSpotter.Server.Controllers
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+
+        /// <summary>
+        /// Registers a new user with the provided information.
+        /// </summary>
+        /// <param name="body">The user registration information.</param>
+        /// <returns>The registered user.</returns>
         [HttpPost("user/register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -154,6 +198,12 @@ namespace HouseSpotter.Server.Controllers
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+
+        /// <summary>
+        /// Gets the saved searches of a user.
+        /// </summary>
+        /// <param name="id">The user ID.</param>
+        /// <returns>The list of saved searches.</returns>
         [HttpGet("user/{id}/savedSearches")]
         [ProducesResponseType<List<Housing>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -181,6 +231,13 @@ namespace HouseSpotter.Server.Controllers
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+
+        /// <summary>
+        /// Saves a search for a user.
+        /// </summary>
+        /// <param name="id">The user ID.</param>
+        /// <param name="search">The search to save.</param>
+        /// <returns>The result of the save operation.</returns>
         [HttpPost("user/{id}/saveSearch")]
         [ProducesResponseType<User>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -211,6 +268,13 @@ namespace HouseSpotter.Server.Controllers
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+
+        /// <summary>
+        /// Removes a saved search for a user.
+        /// </summary>
+        /// <param name="id">The user ID.</param>
+        /// <param name="search">The search to remove.</param>
+        /// <returns>The result of the remove operation.</returns>
         [HttpDelete("user/{id}/removeSearch")]
         [ProducesResponseType<User>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
