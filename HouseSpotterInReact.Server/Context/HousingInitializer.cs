@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace HouseSpotter.Server.DAL
 {
+    /// <summary>
+    /// Class responsible for initializing the housing database.
+    /// </summary>
     public static class HousingInitializer
     {
+        /// <summary>
+        /// Initializes the housing database with sample data.
+        /// </summary>
+        /// <param name="context">The housing context.</param>
         public static void Initialize(HousingContext context)
         {
             context.Database.EnsureCreated();

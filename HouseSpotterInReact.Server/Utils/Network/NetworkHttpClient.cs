@@ -2,8 +2,15 @@ using System.Net;
 
 namespace HouseSpotter.Server.Utils
 {
+    /// <summary>
+    /// Represents a network HTTP client.
+    /// </summary>
     public class NetworkHttpClient
     {
+        /// <summary>
+        /// Destroys the network HTTP client.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Destroy()
         {
             if (HtmlClient != null)
@@ -12,6 +19,11 @@ namespace HouseSpotter.Server.Utils
             }
             HtmlClientInitialized = false;
         }
+
+        /// <summary>
+        /// Initializes the network HTTP client.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Initialize()
         {
             // Set up the browser for HtmlClient
@@ -42,8 +54,20 @@ namespace HouseSpotter.Server.Utils
             //Set up the browser for HtmlClient
             HtmlClientInitialized = true;
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the network HTTP client is initialized.
+        /// </summary>
         public bool HtmlClientInitialized = false;
+
+        /// <summary>
+        /// Gets or sets the HTTP client handler for the network HTTP client.
+        /// </summary>
         public HttpClientHandler? HtmlClientHandler;
+
+        /// <summary>
+        /// Gets or sets the HTTP client for the network HTTP client.
+        /// </summary>
         public HttpClient? HtmlClient;
     }
 }
