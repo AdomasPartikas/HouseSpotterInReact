@@ -7,14 +7,25 @@ using System.Diagnostics;
 
 namespace HouseSpotter.Server.Utils
 {
+    /// <summary>
+    /// Represents a client for scraping data.
+    /// </summary>
     public class ScraperClient
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Finalizer that ensures the scrape is ended before the object is garbage collected.
+        /// </summary>
         ~ScraperClient()
         {
             EndScrape().Wait();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScraperClient"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration object.</param>
         public ScraperClient(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -25,6 +36,10 @@ namespace HouseSpotter.Server.Utils
             NetworkPuppeteerClient = new NetworkPuppeteerClient();
         }
 
+        /// <summary>
+        /// Ends the scrape and performs necessary cleanup.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task EndScrape()
         {
             Debug.WriteLine($"[{DateTimeOffset.Now}] Garbage collecting...");
@@ -45,14 +60,49 @@ namespace HouseSpotter.Server.Utils
             Debug.WriteLine($"[{DateTimeOffset.Now}] Garbage collected");
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether SQL is being used.
+        /// </summary>
         public bool UsingSql = false;
+
+        /// <summary>
+        /// Gets or sets the network HTTP client.
+        /// </summary>
         public NetworkHttpClient NetworkHttpClient;
+
+        /// <summary>
+        /// Gets or sets the network Puppeteer client.
+        /// </summary>
         public NetworkPuppeteerClient NetworkPuppeteerClient;
+
+        /// <summary>
+        /// Gets or sets the number of new queries.
+        /// </summary>
         public int NewQueries;
+
+        /// <summary>
+        /// Gets or sets the total number of queries.
+        /// </summary>
         public int TotalQueries;
+
+        /// <summary>
+        /// Gets or sets the speed limit for scraping.
+        /// </summary>
         public int? SpeedLimit;
+
+        /// <summary>
+        /// Gets or sets the start date of the scrape.
+        /// </summary>
         public DateTime ScrapeStartDate;
+
+        /// <summary>
+        /// Gets or sets the end date of the scrape.
+        /// </summary>
         public DateTime ScrapeEndDate;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to skip the page.
+        /// </summary>
         public bool SkipPage = false;
     }
 }
