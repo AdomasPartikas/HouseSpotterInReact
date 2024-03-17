@@ -83,7 +83,7 @@ namespace HouseSpotter.Server.DAL
                 RCNumeris = "RC67890",
                 Aprasymas = "Parduodamas šiuolaikiškas namas su dideliu žemės sklypu."
             }
-        };
+            };
             housing.ForEach(h => context.Housings.Add(h));
 
             var users = new List<User>{
@@ -119,6 +119,33 @@ namespace HouseSpotter.Server.DAL
             }
         };
             users.ForEach(u => context.Users.Add(u));
+
+            var scrapes = new List<Scrape>{
+                new Scrape
+                {
+                    ScrapeType = ScrapeType.Full,
+                    ScrapeStatus = ScrapeStatus.Success,
+                    ScrapedSite = ScrapedSite.Aruodas,
+                    DateScraped = DateTime.Now,
+                    ScrapeTime = new TimeSpan(0, 0, 32, 34),
+                    TotalQueries = 100,
+                    NewQueries = 100,
+                    Message = "Scrape completed successfully"
+                },
+                new Scrape
+                {
+                    ScrapeType = ScrapeType.Partial,
+                    ScrapeStatus = ScrapeStatus.Failed,
+                    ScrapedSite = ScrapedSite.Domo,
+                    DateScraped = DateTime.Now,
+                    ScrapeTime = new TimeSpan(0, 0, 1, 52),
+                    TotalQueries = 0,
+                    NewQueries = 0,
+                    Message = "Failed to connect to the server"
+                }
+            };
+
+            scrapes.ForEach(s => context.Scrapes.Add(s));
             context.SaveChanges();
         }
     }

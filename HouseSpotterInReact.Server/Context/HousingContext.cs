@@ -11,11 +11,13 @@ namespace HouseSpotter.Server.Context
 
         public DbSet<Housing> Housings { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Scrape> Scrapes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Housing>().ToTable("Housing");
             modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<Scrape>().ToTable("Scrape");
         }
     }
 }

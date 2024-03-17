@@ -31,12 +31,11 @@ namespace HouseSpotter.Server.Scrapers
             await _scraperClient.EndScrape();
         }
 
-        public async Task<ScrapeInformation> EnrichNewHousingsWithDetails()
+        public async Task<Scrape> EnrichNewHousingsWithDetails()
         {
             var housingList = await _housingContext.Housings.Where(h => !String.IsNullOrEmpty(h.Link) && String.IsNullOrEmpty(h.AnketosKodas)).ToListAsync();
 
             _scraperClient.ScrapeStartDate = DateTime.Now;
-            _scraperClient.TotalQueries = await _housingContext.Housings.CountAsync();
 
             foreach (var housing in housingList)
             {
@@ -50,14 +49,15 @@ namespace HouseSpotter.Server.Scrapers
                     _logger.LogError(ex, $"[{DateTimeOffset.Now}] Error while updating housing details for {housing.Link}");
                 }
             }
+            _scraperClient.TotalQueries = await _housingContext.Housings.CountAsync();
             _scraperClient.ScrapeEndDate = DateTime.Now;
-            var result = new ScrapeInformation { Message = "Enriching housing details finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+            var result = new Scrape { Message = "Enriching housing details finished successfully.", DateScraped = DateTime.Now, ScrapedSite = ScrapedSite.Aruodas, ScrapeType = ScrapeType.Full, ScrapeStatus = ScrapeStatus.Success, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
 
             await EndScrape();
 
             return result;
         }
-        public async Task<ScrapeInformation> FindRecentHousingPosts()
+        public async Task<Scrape> FindRecentHousingPosts()
         {
             _scraperClient.ScrapeStartDate = DateTime.Now;
 
@@ -78,7 +78,7 @@ namespace HouseSpotter.Server.Scrapers
                 string pageUrl = url;
                 int pageCount = 1;
 
-                for (int i = 1; i <= pageCount; i++)
+                for (int i = 1; i <= 1; i++)
                 {
                     Thread.Sleep((int)_scraperClient.SpeedLimit!); //Stopping to not get flagged as a robot
 
@@ -103,7 +103,7 @@ namespace HouseSpotter.Server.Scrapers
                     catch (Exception ex)
                     {
                         _logger.LogCritical(ex, $"[{DateTimeOffset.Now}]PuppeteerSharp failed to get {pageUrl}");
-                        return new ScrapeInformation { Message = "PuppeteerSharp failed to get " + pageUrl, ScrapeSucceded = false };
+                        return new Scrape { Message = "PuppeteerSharp failed to get " + pageUrl, ScrapeStatus = ScrapeStatus.Failed, DateScraped = DateTime.Now, ScrapedSite = ScrapedSite.Aruodas, ScrapeType = ScrapeType.Partial };
                     }
 
                     doc = new HtmlDocument();
@@ -155,7 +155,7 @@ namespace HouseSpotter.Server.Scrapers
                             else
                             {
                                 _scraperClient.ScrapeEndDate = DateTime.Now;
-                                var r = new ScrapeInformation { Message = "Recent post scraping finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+                                var r = new Scrape { Message = "Recent post scraping finished successfully.", DateScraped = DateTime.Now, ScrapedSite = ScrapedSite.Aruodas, ScrapeType = ScrapeType.Partial, ScrapeStatus = ScrapeStatus.Success, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
 
                                 await EndScrape();
 
@@ -166,7 +166,7 @@ namespace HouseSpotter.Server.Scrapers
                 }
             }
             _scraperClient.ScrapeEndDate = DateTime.Now;
-            var result = new ScrapeInformation { Message = "Recent post scraping finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+            var result = new Scrape { Message = "Recent post scraping finished successfully.", DateScraped = DateTime.Now, ScrapedSite = ScrapedSite.Aruodas, ScrapeType = ScrapeType.Partial, ScrapeStatus = ScrapeStatus.Success, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
 
             await EndScrape();
 
@@ -423,7 +423,7 @@ namespace HouseSpotter.Server.Scrapers
             await SaveResult(true, house);
             return;
         }
-        public async Task<ScrapeInformation> FindAllHousingPosts()
+        public async Task<Scrape> FindAllHousingPosts()
         {
             _scraperClient.ScrapeStartDate = DateTime.Now;
 
@@ -470,7 +470,7 @@ namespace HouseSpotter.Server.Scrapers
                     {
                         _logger.LogCritical(ex, $"[{DateTimeOffset.Now}]PuppeteerSharp failed to get {pageUrl}");
                         await EndScrape();
-                        return new ScrapeInformation { Message = "PuppeteerSharp failed to get " + pageUrl, ScrapeSucceded = false };
+                        return new Scrape { Message = "PuppeteerSharp failed to get " + pageUrl, ScrapeStatus = ScrapeStatus.Failed, DateScraped = DateTime.Now, ScrapedSite = ScrapedSite.Aruodas, ScrapeType = ScrapeType.Full };
                     }
 
                     doc = new HtmlDocument();
@@ -521,7 +521,7 @@ namespace HouseSpotter.Server.Scrapers
                 }
             }
             _scraperClient.ScrapeEndDate = DateTime.Now;
-            var result = new ScrapeInformation { Message = "Recent post scraping finished successfully.", ScrapeSucceded = true, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
+            var result = new Scrape { Message = "Full scraping finished successfully.", ScrapeStatus = ScrapeStatus.Success, TotalQueries = _scraperClient.TotalQueries, NewQueries = _scraperClient.NewQueries, ScrapeTime = _scraperClient.ScrapeEndDate - _scraperClient.ScrapeStartDate };
 
             await EndScrape();
 
