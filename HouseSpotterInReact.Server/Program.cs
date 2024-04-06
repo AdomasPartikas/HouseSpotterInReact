@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("http://localhost:5173")
+            builder.WithOrigins("https://localhost:5173")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -61,6 +61,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -69,7 +71,6 @@ app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
 
-app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {
