@@ -46,9 +46,15 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target: 'http://localhost:5016/',
-                secure: false
+            '^/housespotter/': {
+                target: 'https://localhost:7270',
+                changeOrigin: true, // necessary for virtual hosted sites
+                secure: false, // if you don't have SSL set up for localhost
+            },
+            '^/housespotter/': {
+                target: 'http://localhost:5016',
+                changeOrigin: true, // necessary for virtual hosted sites
+                secure: false, // if you don't have SSL set up for localhost
             }
         },
         port: 5173,
