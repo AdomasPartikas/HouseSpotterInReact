@@ -1,7 +1,10 @@
-import React from "react";
 import { Link } from 'react-router-dom';
+import { useAuth } from "../contexts/AuthContext";
 
-const Header = ({ isLoggedIn, isAdmin }) => {
+const Header = () => {
+
+  const { user, logout } = useAuth();
+
   return (
     <header>
       <div className="layout">
@@ -12,10 +15,10 @@ const Header = ({ isLoggedIn, isAdmin }) => {
         </div>
         <div className="header__col-2">
           <nav className="header__nav">
-            {isAdmin && <Link to="/scraper">Scraper</Link>}
-            {isLoggedIn && <Link to="/favorite">Mėgstamiausi</Link>}
-            {isLoggedIn && <Link to="/account">Paskyra</Link>}
-            {!isLoggedIn && <Link to="/prisijungti" className="header__btn">Prisijungti</Link>}
+            {user?.isAdmin && <Link to="/scraper">Scraper</Link>}
+            {user && <Link to="/megstamiausi">Mėgstamiausi</Link>}
+            {user && <button onClick={logout} >Atsijungti</button>}
+            {!user && <Link to="/prisijungti" className="header__btn">Prisijungti</Link>}
           </nav>
         </div>
       </div>
