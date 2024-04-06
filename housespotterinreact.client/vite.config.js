@@ -46,15 +46,14 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/housespotter/': {
-                target: 'https://localhost:7270',
-                changeOrigin: true, // necessary for virtual hosted sites
-                secure: false, // if you don't have SSL set up for localhost
+            // '^/housespotter/db/user/login': 
+            '^/housespotter/db/user/login': {
+                target: 'http://localhost:5016/',
+                secure: false,
             },
-            '^/housespotter/': {
-                target: 'http://localhost:5016',
-                changeOrigin: true, // necessary for virtual hosted sites
-                secure: false, // if you don't have SSL set up for localhost
+            '^/housespotter/db/user/register': {
+                target: 'http://localhost:5016/',
+                secure: false,
             }
         },
         port: 5173,
