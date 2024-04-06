@@ -16,7 +16,7 @@ function Product() {
 
   return (
     <div className="product">
-      <Header isAdmin={false} isLoggedIn={false} />
+      <Header />
       <div className="hero">
         <div className="layout">
           <div className="product__photo"></div>
