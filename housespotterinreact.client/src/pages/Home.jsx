@@ -265,7 +265,7 @@ function Home() {
 
   return (
     <div className="home">
-      <Header isAdmin={false} isLoggedIn={false} />
+      <Header />
       <div className="hero">
         <div className="layout">
           <form action="" className="filters">
