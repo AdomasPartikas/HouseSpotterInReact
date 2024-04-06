@@ -46,9 +46,14 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
+            // '^/housespotter/db/user/login': 
+            '^/housespotter/db/user/login': {
                 target: 'http://localhost:5016/',
-                secure: false
+                secure: false,
+            },
+            '^/housespotter/db/user/register': {
+                target: 'http://localhost:5016/',
+                secure: false,
             }
         },
         port: 5173,
