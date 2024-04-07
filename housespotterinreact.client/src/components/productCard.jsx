@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
 
 function ProductCard({ product }) {
-  const { user } = useAuth();
+  const { user, refreshFavorites } = useAuth();
   const { notify } = useNotification();
 
   const [isInSavedSearches, setIsInSavedSearches] = useState(false);
@@ -72,6 +72,7 @@ function ProductCard({ product }) {
         } mėgstamiausių.`,
         "success"
       );
+      refreshFavorites();
     } catch (error) {
       notify("Veiksmo atlikti nepavyko.", "error");
       console.error("Favorite action failed:", error);
