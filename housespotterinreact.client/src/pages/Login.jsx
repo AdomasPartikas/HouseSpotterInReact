@@ -3,21 +3,25 @@ import Header from "../components/header";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/form/TextInput";
 import { useAuth } from "../contexts/AuthContext";
+import { useNotification } from '../contexts/NotificationContext';
+
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const { login } = useAuth();
+  const { notify } = useNotification();
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === "email") setEmail(value);
+    if (name === "text") setUsername(value);
     else if (name === "password") setPassword(value);
   };
 
   async function loginUser() {
     const payload = {
-      username: email,
+      username: username,
       password: password,
     };
 
@@ -34,12 +38,14 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         login(data);
+        notify(`Sveiki prisijungę, ${data.username}!`, 'success');
         navigate("/megstamiausi");
       } else {
-        console.error("HTTP error:", response.status, response.statusText);
+        notify('Prisijungti nepavyko.', 'error');
       }
     } catch (error) {
-      console.error("Network error:", error);
+      console.log(error);
+      notify('Prisijungti nepavyko.', 'error');
     }
   }
 
@@ -56,11 +62,11 @@ function Login() {
           >
             <h1>Prisijungti</h1>
             <TextInput
-              label="El. paštas"
-              name="email"
-              placeholder="Įveskite savo el. paštą"
+              label="Vartotojo vardas"
+              name="text"
+              placeholder="Įveskite savo vartotojo vardą"
               inputType="text"
-              value={email}
+              value={username}
               onChange={handleInputChange}
             />
             <TextInput
