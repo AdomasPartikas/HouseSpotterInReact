@@ -1,13 +1,16 @@
 import { useState } from "react";
 import Header from "../components/header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/form/TextInput";
+import { useNotification } from "../contexts/NotificationContext";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -18,7 +21,7 @@ function Register() {
       case "password":
         setPassword(value);
         break;
-      case "name":
+      case "username":
         setUsername(value);
         break;
       case "phone":
@@ -29,54 +32,86 @@ function Register() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  async function registerUser() {
     const payload = {
-      username,
-      password,
-      email,
-      phoneNumber,
-      isAdmin: false
+      email: email,
+      phoneNumber: phoneNumber,
+      username: username,
+      password: password,
+      isAdmin: false,
     };
 
     try {
-      const response = await fetch('https://127.0.0.1:5016/housespotter/db/user/register', {
-        method: 'POST',
+      const response = await fetch("housespotter/db/user/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json-patch+json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
-        mode: 'no-cors',
       });
 
       if (response.ok) {
-        const data = await response.json();
-        window.location.href = "/prisijungti";
+        notify(
+          `Sveikiname sėkmingai prisiregistravus. Dabar galite prisijungti.`,
+          "success"
+        );
+        navigate("/prisijungti");
       } else {
-        const errorData = await response.json();
-        console.error(errorData);
-        alert(errorData.message);
+        notify("Registracija nepavyko.", "error");
       }
     } catch (error) {
-      console.error(error);
-      alert('Failed to register');
+      notify("Registracija nepavyko.", "error");
     }
-  };
+  }
 
   return (
     <div className="login">
       <Header />
       <div className="hero">
         <div className="layout">
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              registerUser();
+            }}
+          >
             <h1>Registruotis</h1>
-            <TextInput label="Vardas" name="name" placeholder="Įveskite savo vardą" inputType="text" onChange={handleInputChange} />
-            <TextInput label="El. paštas" name="email" placeholder="Įveskite savo el. paštą" inputType="email" onChange={handleInputChange} />
-            <TextInput label="Telefonas" name="phone" placeholder="Įveskite savo tel. nr." inputType="text" onChange={handleInputChange} />
-            <TextInput label="Slaptažodis" name="password" placeholder="Įveskite savo slaptažodį" inputType="password" onChange={handleInputChange} />
-            <button type="submit" className="primary__btn">Registruotis</button>
+            <TextInput
+              label="Vartotojo vardas"
+              name="username"
+              placeholder="Įveskite savo vartotojo vardą"
+              inputType="text"
+              onChange={handleInputChange}
+            />
+            <TextInput
+              label="El. paštas"
+              name="email"
+              placeholder="Įveskite savo el. paštą"
+              inputType="email"
+              onChange={handleInputChange}
+            />
+            <TextInput
+              label="Telefonas"
+              name="phone"
+              placeholder="Įveskite savo tel. nr."
+              inputType="text"
+              onChange={handleInputChange}
+            />
+            <TextInput
+              label="Slaptažodis"
+              name="password"
+              placeholder="Įveskite savo slaptažodį"
+              inputType="password"
+              onChange={handleInputChange}
+            />
+            <button type="submit" className="primary__btn">
+              Registruotis
+            </button>
             <p>Jau turite paskyrą?</p>
-            <Link to="/prisijungti" className="secondary__btn">Prisijungti</Link>
+            <Link to="/prisijungti" className="secondary__btn">
+              Prisijungti
+            </Link>
           </form>
         </div>
       </div>
