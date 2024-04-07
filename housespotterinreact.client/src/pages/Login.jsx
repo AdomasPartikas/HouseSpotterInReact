@@ -1,30 +1,72 @@
 import { useState } from "react";
 import Header from "../components/header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/form/TextInput";
+import { useAuth } from "../contexts/AuthContext";
+import { useNotification } from '../contexts/NotificationContext';
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { login } = useAuth();
+  const { notify } = useNotification();
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === "email") setEmail(value);
+    if (name === "text") setUsername(value);
     else if (name === "password") setPassword(value);
   };
 
+  async function loginUser() {
+    const payload = {
+      username: username,
+      password: password,
+    };
+
+    try {
+      const response = await fetch("housespotter/db/user/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        login(data);
+        notify(`Sveiki prisijungę, ${data.username}!`, 'success');
+        navigate("/megstamiausi");
+      } else {
+        notify('Prisijungti nepavyko.', 'error');
+      }
+    } catch (error) {
+      console.log(error);
+      notify('Prisijungti nepavyko.', 'error');
+    }
+  }
+
   return (
     <div className="login">
-      <Header isAdmin={false} isLoggedIn={false} />
+      <Header />
       <div className="hero">
         <div className="layout">
-          <form action="">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              loginUser();
+            }}
+          >
             <h1>Prisijungti</h1>
             <TextInput
-              label="El. paštas"
-              name="email"
-              placeholder="Įveskite savo el. paštą"
-              inputType="email"
+              label="Vartotojo vardas"
+              name="text"
+              placeholder="Įveskite savo vartotojo vardą"
+              inputType="text"
+              value={username}
               onChange={handleInputChange}
             />
             <TextInput
@@ -32,6 +74,7 @@ function Login() {
               name="password"
               placeholder="Įveskite savo slaptažodį"
               inputType="password"
+              value={password}
               onChange={handleInputChange}
             />
             <button type="submit" className="primary__btn">
