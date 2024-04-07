@@ -266,7 +266,7 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("housespotter/db/getallhousing");
+        const response = await fetch("/housespotter/db/getallhousing");
         if (!response.ok) throw new Error("Data could not be fetched");
         const data = await response.json();
         setHousingData(data);
