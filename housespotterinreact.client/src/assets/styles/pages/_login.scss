@@ -1,4 +1,6 @@
 .login {
+  padding: 0 0 8rem;
+  
   .hero {
     form {
       @include center(column, 0, 0);
@@ -58,7 +60,9 @@
         text-decoration: none;
         height: 4.2rem;
         cursor: pointer;
-        transition: background 0.3s, color;
+        transition:
+          background 0.3s,
+          color;
         width: 100%;
         margin-top: 1rem;
 
