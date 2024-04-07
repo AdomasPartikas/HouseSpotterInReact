@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
 import Header from "../components/header";
 import FormSection from "../components/form/FormSection";
-
-import products from "../api/products.json";
+import ProductCard from "../components/productCard";
 
 function Home() {
   const objectTypeOptions = [
@@ -263,6 +261,23 @@ function Home() {
     });
   };
 
+  const [housingData, setHousingData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("housespotter/db/getallhousing");
+        if (!response.ok) throw new Error("Data could not be fetched");
+        const data = await response.json();
+        setHousingData(data);
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="home">
       <Header />
@@ -308,35 +323,12 @@ function Home() {
 
       <div className="products">
         <div className="layout">
-          <h2>Skelbimai <span>({products.length})</span></h2>
-        {products.map((product) => (
-          <div className="product" key={product.id}>
-            <div className="product__photo"></div>
-            <div className="product__content">
-              <Link to={`/skelbimas/${product.id}`} className="product__title">
-                {product.title}
-              </Link>
-              <button className="product__favorite"></button>
-              <div className="product__row">
-                <div className="product__price">
-                  <p>{product.price} €</p>
-                  <p>{product.pricePerSquareMeter} €/m2</p>
-                </div>
-                <div className="product__props">
-                  <div className="product__rooms">
-                    <p>Kambariai: <span>{product.rooms}</span></p>
-                  </div>
-                  <div className="product__area">
-                    <p>Plotas: <span>{product.area}</span></p>
-                  </div>
-                  <div className="product__floors">
-                    <p>Aukštai: <span>{product.floors}</span></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+          <h2>
+            Skelbimai <span>({housingData.length})</span>
+          </h2>
+          {housingData.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       </div>
     </div>
