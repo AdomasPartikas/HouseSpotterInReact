@@ -222,7 +222,7 @@ namespace HouseSpotter.Server.Controllers
                     return Ok(new List<Housing>());
                 }
 
-                var result = await _housingContext.Housings.Where(h => user.SavedSearches.Any(u => u == h.AnketosKodas)).ToListAsync();
+                var result = await _housingContext.Housings.Where(h => user.SavedSearches.Any(u => u == h.ID.ToString())).ToListAsync();
 
                 return Ok(result);
             }
