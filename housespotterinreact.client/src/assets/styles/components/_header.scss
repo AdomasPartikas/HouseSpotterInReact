@@ -21,10 +21,16 @@ header {
   }
 
   .header__nav {
-    @include center(0, 0, 0);
+    @include center(0, 0, center);
     gap: 5rem;
-    font-size: 1.6rem;
-    a {
+
+    a:not(.header__btn) {
+      font-weight: 600;
+    }
+
+    a,
+    button {
+      font-size: 1.6rem;
       color: $accent;
       text-decoration: none;
       transition: filter 0.3s;
@@ -34,10 +40,17 @@ header {
     }
 
     .header__btn {
+      @include center(0, center, center);
+      height: 4.4rem;
+      font-weight: 500;
+      letter-spacing: 0.1rem;
+      appearance: none;
+      border: none;
       background: $primary;
       color: $white;
       border-radius: 0.6rem;
       padding: 1rem 4rem;
+      cursor: pointer;
     }
   }
 }
