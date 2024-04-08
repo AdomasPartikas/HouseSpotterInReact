@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ScraperClient>();
 builder.Services.AddScoped<ScraperForAruodas>();
 builder.Services.AddScoped<ScraperForSkelbiu>();
+builder.Services.AddScoped<ScraperForDomo>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddDbContext<HousingContext>(options =>
