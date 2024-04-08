@@ -550,6 +550,7 @@ namespace HouseSpotter.Server.Scrapers
                     var descriptionTitle = row.Descendants("th").FirstOrDefault()?.InnerText.Trim();
                     var descriptionDefinition = row.Descendants("td").FirstOrDefault()?.InnerText.Trim();
 
+
                     // Add extracted data to the list
                     extractedDataList.Add((descriptionTitle, descriptionDefinition));
                 }
@@ -560,14 +561,13 @@ namespace HouseSpotter.Server.Scrapers
                 var dscTitle = data.Title;
                 var dscDefinition = data.Definition;
 
+                if (data.Title.Contains("Nuomos kaina"))
+                {
+                    house.KainaMen = Convert.ToInt32(dscDefinition.Split('€')[0].Trim().Replace(" ", ""));
+                }
+
                 switch (dscTitle)
                 {
-                    case "Nuomos kaina":
-                        {
-                            dscDefinition = dscDefinition.Split('€')[0].Trim().Replace(" ", "");
-                            house.KainaMen = Convert.ToInt32(dscDefinition);
-                        }
-                        break;
                     case "Namo numeris:":
                         {
                             house.NamoNumeris = dscDefinition;
@@ -602,7 +602,7 @@ namespace HouseSpotter.Server.Scrapers
                             house.Metai = Convert.ToInt32(dscDefinition);
                         }
                         break;
-                    case "Būklė":    
+                    case "Būklė":
                     case "Namo būklė":
                         {
                             house.Irengimas = dscDefinition;
@@ -630,7 +630,7 @@ namespace HouseSpotter.Server.Scrapers
                         break;
                     case "Namo tipas:":
                         {
-                            house.NamoTipas = dscDefinition;
+                            house.PastatoTipas = dscDefinition;
                         }
                         break;
                     case "Sklypo plotas:":
