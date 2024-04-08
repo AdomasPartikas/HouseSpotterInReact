@@ -20,7 +20,7 @@ namespace HouseSpotter.Server.Models
         /// <summary>
         /// Gets or sets the Nuotrauka of the housing.
         /// </summary>
-        public byte[]? Nuotrauka { get; set; }
+        public string? Nuotrauka { get; set; }
 
         /// <summary>
         /// Gets or sets the Link of the housing.
