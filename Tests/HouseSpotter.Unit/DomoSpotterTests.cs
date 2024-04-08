@@ -58,8 +58,23 @@ namespace HouseSpotter.Unit.Tests
             Assert.Equal(ScrapeStatus.Failed, result.ScrapeStatus);
             Assert.Contains("PuppeteerSharp failed to get https://domo", result.Message);
         }
+        
+        [Fact]
+        public async Task EnrichNewHousingsWithDetails_ShouldUpdateHousingsWithCorrectDetails()
+        {
+            // Arrange
+            var fixture = new ScraperForDomoFixture(); // Initialize the fixture
 
+            // Act
+            var result = await fixture.scraperForDomo.EnrichNewHousingsWithDetails(); // Enrich housings
 
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Enriching housing details finished successfully.", result.Message); // Check the result message
+
+            // Clean up
+            fixture.Dispose();
+        }
 
     }
 }

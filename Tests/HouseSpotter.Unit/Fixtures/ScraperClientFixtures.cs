@@ -16,6 +16,15 @@ namespace HouseSpotter.Unit.Fixtures
 
             mockedHousingContext = new HousingContext(options);
 
+            mockedHousingContext.Housings.Add(new Housing
+            {
+                Link = "https://m.aruodas.lt/namai-siauliu-rajone-raizgiu-k-tvenkinio-g-parduodamas-namas-su-arais-zemes-sklypu-2-1599479/?return_url=%2Fnamai%2F%3Fobj%3D2",
+                BustoTipas = "namas"
+                // Add other properties as needed
+            });
+
+            mockedHousingContext.SaveChanges();
+
             var inMemorySettings = new Dictionary<string, string> {
                 {"Scraper:SpeedLimit", "100"}
             };
@@ -52,6 +61,15 @@ namespace HouseSpotter.Unit.Fixtures
 
             mockedHousingContext = new HousingContext(options);
 
+            mockedHousingContext.Housings.Add(new Housing
+            {
+                Link = "https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-snieguoliu-g-8245597.html",
+                BustoTipas = "namas"
+                // Add other properties as needed
+            });
+
+            mockedHousingContext.SaveChanges();
+
             var inMemorySettings = new Dictionary<string, string> {
                 {"Scraper:SpeedLimit", "100"}
             };
@@ -87,6 +105,15 @@ namespace HouseSpotter.Unit.Fixtures
                 .Options;
 
             mockedHousingContext = new HousingContext(options);
+
+            mockedHousingContext.Housings.Add(new Housing
+            {
+                Link = "https://www.skelbiu.lt/skelbimai/4-kamb-153-kv-miesto-komunik-12-86a-priduotas-73823587.html",
+                BustoTipas = "namas"
+                // Add other properties as needed
+            });
+
+            mockedHousingContext.SaveChanges();
 
             mockedHousingContext.Database.EnsureCreated();
 

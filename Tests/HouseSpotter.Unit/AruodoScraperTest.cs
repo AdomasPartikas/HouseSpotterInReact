@@ -59,5 +59,22 @@ namespace HouseSpotter.Unit.Tests
             Assert.Contains("PuppeteerSharp failed to get https://m.ar", result.Message);
         }
 
+        [Fact]
+        public async Task EnrichNewHousingsWithDetails_ShouldUpdateHousingsWithCorrectDetails()
+        {
+            // Arrange
+            var fixture = new ScraperForAruodasFixture(); // Initialize the fixture
+
+            // Act
+            var result = await fixture.scraperForAruodas.EnrichNewHousingsWithDetails(); // Enrich housings
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Enriching housing details finished successfully.", result.Message); // Check the result message
+
+            // Clean up
+            fixture.Dispose();
+        }
+
     }
 }
