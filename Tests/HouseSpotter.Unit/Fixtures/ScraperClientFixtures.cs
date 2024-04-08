@@ -2,7 +2,7 @@ namespace HouseSpotter.Unit.Fixtures
 {
     public class ScraperForAruodasFixture : IDisposable
     {
-        public ScraperForAruodas scraperForSkelbiu;
+        public ScraperForAruodas scraperForAruodas;
         public HousingContext mockedHousingContext;
         public ScraperClient scraperClient;
 
@@ -26,7 +26,7 @@ namespace HouseSpotter.Unit.Fixtures
 
             scraperClient = new Mock<ScraperClient>(configuration).Object;
 
-            scraperForSkelbiu = new ScraperForAruodas(scraperClient, loggerMock.Object, mockedHousingContext);
+            scraperForAruodas = new ScraperForAruodas(scraperClient, loggerMock.Object, mockedHousingContext);
         }
 
         public void Dispose()
@@ -38,7 +38,7 @@ namespace HouseSpotter.Unit.Fixtures
     }
     public class ScraperForDomoFixture : IDisposable
     {
-        public ScraperForDomo scraperForSkelbiu;
+        public ScraperForDomo scraperForDomo;
         public HousingContext mockedHousingContext;
         public ScraperClient scraperClient;
 
@@ -62,7 +62,7 @@ namespace HouseSpotter.Unit.Fixtures
 
             scraperClient = new Mock<ScraperClient>(configuration).Object;
 
-            scraperForSkelbiu = new ScraperForDomo(scraperClient, loggerMock.Object, mockedHousingContext);
+            scraperForDomo = new ScraperForDomo(scraperClient, loggerMock.Object, mockedHousingContext);
         }
 
         public void Dispose()

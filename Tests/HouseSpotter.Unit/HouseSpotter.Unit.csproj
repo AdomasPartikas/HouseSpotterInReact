@@ -29,6 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Utils\Htmls\DomoPositiveHtml.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\HouseSpotterInReact.Server\HouseSpotterInReact.Server.csproj" />
   </ItemGroup>
 

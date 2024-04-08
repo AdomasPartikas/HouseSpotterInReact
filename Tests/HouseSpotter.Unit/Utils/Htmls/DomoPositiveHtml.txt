@@ -1,0 +1,93 @@
+<div class="cntnt-box-fixed">	<div class="listing-title">
+		<h1 class="filter-info fl">
+			Parduodami namai, sublokuoti namai, sodai		</h1>
+		<span class="fl larger results-amount grey">(4076)</span>	</div>
+			
+		
+<ul class="auto-list">
+		<li class="dark-active not-viewed" id="ann_8254540">
+		<div class="item lt">
+						<div class="thumb fl">
+				<a href="https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-vanagines-g-8254540.html" onclick="openNewTab('https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-vanagines-g-8254540.html');annView('8254540'); return false;">
+            		<img width="168" height="127" src="https://static.domoplius.lt/domoplius/images/anns/domoplius/7/82545/40/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-vanagines-_7633410_thumbnail.jpg" alt="Gyvenamasis namas Vilniaus rajono sav., Didžioji Riešė, Vanaginės g.">                	<span class="viewed"></span><span class="viewed-text">Žiūrėjote</span>
+				</a>
+				</div>
+			<div class="item-section fr">
+				<h2 class="title-list"><a href="https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-vanagines-g-8254540.html" title="Gyvenamasis namas Vilniaus rajono sav., Didžioji Riešė, Vanaginės g." onclick="openNewTab('https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-vanagines-g-8254540.html');annView('8254540'); return false;">Gyvenamasis namas Vilniaus rajono sav., Didžioji Riešė, Vanaginės g.</a> <span class="raise-service-icon" title="Skelbimų iškėlimo paslauga. Užsakyta pliusų: 20"><img src="https://static.domoplius.lt/domoplius/img/s.gif" alt="20"><span>+20</span>&nbsp;</span></h2>
+				<div class="price">
+					<p class="fl"><span>Kaina:</span> <strong>450 000 €</strong> <span>(1 531 €/m²)</span></p>
+			       					</div>
+				<div class="param-list">
+					<div>
+						<span title="Bendras pastato plotas">293.85 m²</span><span title="Aukštų skaičius">2 a.</span><span title="Statybos metai">2007 m.</span><span title="Sklypo plotas">15 a (0.15 Ha)</span>					</div>
+				</div>
+				<div class="clear"><!-- --></div>
+			</div>
+			<div class="clear"><!-- --></div>
+			<div class="item-menu details-list fr">
+				<div class="fl tools-sidebar"><label class="check_ann_8254540" onclick="check_ann_list_js(8254540,7);return true;"><span class="tools-icons check-ann-off">Įsiminti</span><span class="tools-icons check-ann-on">Pamiršti</span></label></div>
+				 <div class="logo-list"><a target="_blank" href="https://domoplius.lt/capitalexperts"><img src="https://static.domoplius.lt/domoplius/images/logo/partner/domoplius/1139480.jpg" alt=""></a></div>			</div>
+
+					</div>
+	</li>
+		<li class=" not-viewed" id="ann_8245597">
+		<div class="item lt">
+						<div class="thumb fl">
+				<a href="https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-snieguoliu-g-8245597.html" onclick="openNewTab('https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-snieguoliu-g-8245597.html');annView('8245597'); return false;">
+            		<img width="168" height="127" src="https://static.domoplius.lt/domoplius/images/anns/domoplius/7/82455/97/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-snieguoliu-_7644690_thumbnail.jpg" alt="Gyvenamasis namas Vilniaus rajono sav., Didžioji Riešė, Snieguolių g.">                	<span class="viewed"></span><span class="viewed-text">Žiūrėjote</span>
+				</a>
+				</div>
+			<div class="item-section fr">
+				<h2 class="title-list"><a href="https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-snieguoliu-g-8245597.html" title="Gyvenamasis namas Vilniaus rajono sav., Didžioji Riešė, Snieguolių g." onclick="openNewTab('https://domoplius.lt/skelbimai/parduodamas-gyvenamasis-namas-vilniaus-rajono-sav-didzioji-riese-snieguoliu-g-8245597.html');annView('8245597'); return false;">Gyvenamasis namas Vilniaus rajono sav., Didžioji Riešė, Snieguolių g.</a> <span class="raise-service-icon" title="Skelbimų iškėlimo paslauga. Užsakyta pliusų: 20"><img src="https://static.domoplius.lt/domoplius/img/s.gif" alt="20"><span>+20</span>&nbsp;</span></h2>
+				<div class="price">
+					<p class="fl"><span>Kaina:</span> <strong>529 000 €</strong> <span>(2 150 €/m²)</span></p>
+			       					</div>
+				<div class="param-list">
+					<div>
+						<span title="Bendras pastato plotas">246.10 m²</span><span title="Aukštų skaičius">2 a.</span><span title="Statybos metai">2011 m.</span><span title="Sklypo plotas">15.37 a (0.1537 Ha)</span>					</div>
+				</div>
+				<div class="clear"><!-- --></div>
+			</div>
+			<div class="clear"><!-- --></div>
+			<div class="item-menu details-list fr">
+				<div class="fl tools-sidebar"><label class="check_ann_8245597" onclick="check_ann_list_js(8245597,7);return true;"><span class="tools-icons check-ann-off">Įsiminti</span><span class="tools-icons check-ann-on">Pamiršti</span></label></div>
+				 <div class="logo-list"><a target="_blank" href="https://domoplius.lt/capitalexperts"><img src="https://static.domoplius.lt/domoplius/images/logo/partner/domoplius/1139480.jpg" alt=""></a></div>			</div>
+
+					</div>
+	</li>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+</ul>
+
+
+
+
+
+</div>
