@@ -19,6 +19,8 @@ namespace HouseSpotter.Server.Controllers
     {
         private HousingContext _housingContext;
         private readonly ScraperForAruodas _scraperForAruodas;
+        private readonly ScraperForDomo _scraperForDomo;
+        
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -27,11 +29,77 @@ namespace HouseSpotter.Server.Controllers
         /// <param name="housingContext"></param>
         /// <param name="scraperForAruodas"></param>
         /// <param name="mapper"></param>
-        public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, IMapper mapper)
+        public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, ScraperForDomo scraperForDomo, IMapper mapper)
         {
             _scraperForAruodas = scraperForAruodas;
+            _scraperForDomo = scraperForDomo;
             _housingContext = housingContext;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Finds all housing posts from Aruodas website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
+        [HttpPost("domo/findhousing/all")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DomoFindAllHousingPosts()
+        {
+            try
+            {
+                var result = await _scraperForDomo.FindAllHousingPosts();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Finds recent housing posts from Aruodas website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
+        [HttpPost("domo/findhousing/recent")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DomoFindRecentHousingPosts()
+        {
+            try
+            {
+                var result = await _scraperForDomo.FindRecentHousingPosts();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        [HttpPost("domo/enrichhousing")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DomoEnrichHousing()
+        {
+            try
+            {
+                var result = await _scraperForDomo.EnrichNewHousingsWithDetails();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
         }
 
         /// <summary>
