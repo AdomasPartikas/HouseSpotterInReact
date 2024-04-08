@@ -36,7 +36,5 @@ namespace HouseSpotter.Unit.Tests
             Assert.NotNull(result);
             Assert.Equal("Scrape finished successfully", result.Message);
         }
-
-
     }
 }
