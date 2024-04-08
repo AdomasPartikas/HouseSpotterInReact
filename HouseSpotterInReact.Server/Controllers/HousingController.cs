@@ -106,6 +106,29 @@ namespace HouseSpotter.Server.Controllers
         }
 
         /// <summary>
+        /// Finds recent housing posts from Skelbiu website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
+        [HttpPost("skelbiu/findhousing/recent")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SkelbiuFindRecentHousingPosts()
+        {
+            try
+            {
+                var result = await _scraperForSkelbiu.FindRecentHousingPosts();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Enriches new housing posts with additional details from Aruodas website.
         /// </summary>
         /// <returns>The enriched housing data.</returns>
@@ -117,6 +140,29 @@ namespace HouseSpotter.Server.Controllers
             try
             {
                 var result = await _scraperForAruodas.EnrichNewHousingsWithDetails();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Enriches new housing posts with additional details from Skelbiu website.
+        /// </summary>
+        /// <returns>The enriched housing data.</returns>
+        [HttpPost("skelbiu/enrichhousing")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SkelbiuEnrichHousing()
+        {
+            try
+            {
+                var result = await _scraperForSkelbiu.EnrichNewHousingsWithDetails();
                 _housingContext.Scrapes.Add(result);
                 _housingContext.SaveChanges();
 
