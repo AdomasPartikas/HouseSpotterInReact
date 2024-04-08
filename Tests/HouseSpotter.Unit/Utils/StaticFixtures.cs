@@ -13,8 +13,6 @@ namespace HouseSpotter.Unit.Fixtures
             var outputDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "../../../"));
             SkelbiuPositiveHtml = File.ReadAllText(Path.Combine(outputDirectory, "Utils", "Htmls", "SkelbiuPositiveHtml.txt"));
             AruodasPositiveHtml = File.ReadAllText(Path.Combine(outputDirectory, "Utils", "Htmls", "AruodasPositiveHtml.txt"));
-            var filePath = Path.Combine(outputDirectory, "Utils", "Htmls", "SkelbiuPositiveHtml.txt");
-            SkelbiuPositiveHtml = File.ReadAllText(filePath);
             DomoPositiveHtml = File.ReadAllText(Path.Combine(outputDirectory, "Utils", "Htmls", "DomoPositiveHtml.txt"));
         }
     }

@@ -36,7 +36,6 @@ namespace HouseSpotter.Unit.Tests
             Assert.NotNull(result);
             Assert.Equal("Scrape finished successfully", result.Message);
         }
-<<<<<<< HEAD
 
         [Fact]
         public async Task FindAllHousingPosts_ShouldHandleScrapingFailureGracefully()
@@ -61,7 +60,5 @@ namespace HouseSpotter.Unit.Tests
 
 
 
-=======
->>>>>>> 6f67b59383035f226286a773186642b115071609
     }
 }
