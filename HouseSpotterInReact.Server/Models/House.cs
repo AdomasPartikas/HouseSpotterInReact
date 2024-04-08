@@ -43,6 +43,16 @@ namespace HouseSpotter.Server.Models
         public double? Kaina { get; set; }
 
         /// <summary>
+        /// Gets or sets the Gyvenviete of the housing.
+        /// </summary>
+        public string? Gyvenviete { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Gatve of the housing.
+        /// </summary>
+        public string? Gatve { get; set; }
+
+        /// <summary>
         /// Gets or sets the KainaMen of the housing.
         /// </summary>
         public double? KainaMen { get; set; }
