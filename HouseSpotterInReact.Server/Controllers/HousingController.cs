@@ -19,6 +19,7 @@ namespace HouseSpotter.Server.Controllers
     {
         private HousingContext _housingContext;
         private readonly ScraperForAruodas _scraperForAruodas;
+        private readonly ScraperForSkelbiu _scraperForSkelbiu;
         private readonly ScraperForDomo _scraperForDomo;
         
         private readonly IMapper _mapper;
@@ -29,10 +30,11 @@ namespace HouseSpotter.Server.Controllers
         /// <param name="housingContext"></param>
         /// <param name="scraperForAruodas"></param>
         /// <param name="mapper"></param>
-        public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, ScraperForDomo scraperForDomo, IMapper mapper)
+        public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, ScraperForDomo scraperForDomo, ScraperForSkelbiu scraperForSkelbiu, IMapper mapper)
         {
             _scraperForAruodas = scraperForAruodas;
             _scraperForDomo = scraperForDomo;
+            _scraperForSkelbiu = scraperForSkelbiu;
             _housingContext = housingContext;
             _mapper = mapper;
         }
@@ -126,6 +128,29 @@ namespace HouseSpotter.Server.Controllers
         }
 
         /// <summary>
+        /// Finds all housing posts from Skelbiu website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
+        [HttpPost("skelbiu/findhousing/all")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SkelbiuFindAllHousingPosts()
+        {
+            try
+            {
+                var result = await _scraperForSkelbiu.FindAllHousingPosts();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Finds recent housing posts from Aruodas website.
         /// </summary>
         /// <returns>The scraped housing data.</returns>
@@ -149,6 +174,29 @@ namespace HouseSpotter.Server.Controllers
         }
 
         /// <summary>
+        /// Finds recent housing posts from Skelbiu website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
+        [HttpPost("skelbiu/findhousing/recent")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SkelbiuFindRecentHousingPosts()
+        {
+            try
+            {
+                var result = await _scraperForSkelbiu.FindRecentHousingPosts();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Enriches new housing posts with additional details from Aruodas website.
         /// </summary>
         /// <returns>The enriched housing data.</returns>
@@ -160,6 +208,29 @@ namespace HouseSpotter.Server.Controllers
             try
             {
                 var result = await _scraperForAruodas.EnrichNewHousingsWithDetails();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Enriches new housing posts with additional details from Skelbiu website.
+        /// </summary>
+        /// <returns>The enriched housing data.</returns>
+        [HttpPost("skelbiu/enrichhousing")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SkelbiuEnrichHousing()
+        {
+            try
+            {
+                var result = await _scraperForSkelbiu.EnrichNewHousingsWithDetails();
                 _housingContext.Scrapes.Add(result);
                 _housingContext.SaveChanges();
 
@@ -283,14 +354,14 @@ namespace HouseSpotter.Server.Controllers
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Given user ID does not exist.");
                 }
                 if(user.SavedSearches == null)
                 {
                     return Ok(new List<Housing>());
                 }
 
-                var result = await _housingContext.Housings.Where(h => user.SavedSearches.Any(u => u == h.AnketosKodas)).ToListAsync();
+                var result = await _housingContext.Housings.Where(h => user.SavedSearches.Any(u => u == h.ID.ToString())).ToListAsync();
 
                 return Ok(result);
             }
@@ -317,12 +388,24 @@ namespace HouseSpotter.Server.Controllers
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Given user ID does not exist.");
                 }
 
                 if(user.SavedSearches == null)
                 {
                     user.SavedSearches = new List<string>();
+                }
+
+                if(user.SavedSearches.Contains(search))
+                {
+                    return Ok(user);
+                }
+
+                var housing = await _housingContext.Housings.Where(h => h.ID.ToString() == search).FirstOrDefaultAsync();
+
+                if(housing == null)
+                {
+                    return NotFound("Given housing ID does not exist.");
                 }
 
                 user.SavedSearches.Add(search);
@@ -354,10 +437,15 @@ namespace HouseSpotter.Server.Controllers
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Given user ID does not exist.");
                 }
 
                 if(user.SavedSearches == null)
+                {
+                    return Ok(user);
+                }
+
+                if(!user.SavedSearches.Contains(search))
                 {
                     return Ok(user);
                 }
