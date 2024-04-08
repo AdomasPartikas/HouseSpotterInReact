@@ -19,6 +19,7 @@ namespace HouseSpotter.Server.Controllers
     {
         private HousingContext _housingContext;
         private readonly ScraperForAruodas _scraperForAruodas;
+        private readonly ScraperForSkelbiu _scraperForSkelbiu;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -27,9 +28,10 @@ namespace HouseSpotter.Server.Controllers
         /// <param name="housingContext"></param>
         /// <param name="scraperForAruodas"></param>
         /// <param name="mapper"></param>
-        public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, IMapper mapper)
+        public HousingScraperController(HousingContext housingContext, ScraperForAruodas scraperForAruodas, ScraperForSkelbiu scraperForSkelbiu, IMapper mapper)
         {
             _scraperForAruodas = scraperForAruodas;
+            _scraperForSkelbiu = scraperForSkelbiu;
             _housingContext = housingContext;
             _mapper = mapper;
         }
@@ -46,6 +48,29 @@ namespace HouseSpotter.Server.Controllers
             try
             {
                 var result = await _scraperForAruodas.FindAllHousingPosts();
+                _housingContext.Scrapes.Add(result);
+                _housingContext.SaveChanges();
+
+                return Ok(_mapper.Map<ScrapeDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Finds all housing posts from Skelbiu website.
+        /// </summary>
+        /// <returns>The scraped housing data.</returns>
+        [HttpPost("skelbiu/findhousing/all")]
+        [ProducesResponseType<ScrapeDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SkelbiuFindAllHousingPosts()
+        {
+            try
+            {
+                var result = await _scraperForSkelbiu.FindAllHousingPosts();
                 _housingContext.Scrapes.Add(result);
                 _housingContext.SaveChanges();
 
@@ -215,14 +240,14 @@ namespace HouseSpotter.Server.Controllers
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Given user ID does not exist.");
                 }
                 if(user.SavedSearches == null)
                 {
                     return Ok(new List<Housing>());
                 }
 
-                var result = await _housingContext.Housings.Where(h => user.SavedSearches.Any(u => u == h.AnketosKodas)).ToListAsync();
+                var result = await _housingContext.Housings.Where(h => user.SavedSearches.Any(u => u == h.ID.ToString())).ToListAsync();
 
                 return Ok(result);
             }
@@ -249,12 +274,24 @@ namespace HouseSpotter.Server.Controllers
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Given user ID does not exist.");
                 }
 
                 if(user.SavedSearches == null)
                 {
                     user.SavedSearches = new List<string>();
+                }
+
+                if(user.SavedSearches.Contains(search))
+                {
+                    return Ok(user);
+                }
+
+                var housing = await _housingContext.Housings.Where(h => h.ID.ToString() == search).FirstOrDefaultAsync();
+
+                if(housing == null)
+                {
+                    return NotFound("Given housing ID does not exist.");
                 }
 
                 user.SavedSearches.Add(search);
@@ -286,10 +323,15 @@ namespace HouseSpotter.Server.Controllers
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Given user ID does not exist.");
                 }
 
                 if(user.SavedSearches == null)
+                {
+                    return Ok(user);
+                }
+
+                if(!user.SavedSearches.Contains(search))
                 {
                     return Ok(user);
                 }
