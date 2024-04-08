@@ -112,7 +112,7 @@ namespace HouseSpotter.Server.Scrapers
                 .Where(node => node.GetAttributeValue("id", "")
                 .Equals("photoArea")).FirstOrDefault();
 
-            var img = imageHolder!.Descendants("img").FirstOrDefault()!.GetAttributeValue("src", "");
+            house.Nuotrauka = imageHolder!.Descendants("img").FirstOrDefault()!.GetAttributeValue("src", "");
 
             house.Title = header!.Descendants("h1")
                 .Where(node => node.GetAttributeValue("class", "")
@@ -128,26 +128,21 @@ namespace HouseSpotter.Server.Scrapers
                 .Where(node => node.GetAttributeValue("id", "")
                 .Equals("description")).FirstOrDefault()!.InnerText;
 
-            var detailTextList = doc.DocumentNode.Descendants("div")
+            var detailsMoreArea = doc.DocumentNode.Descendants("div")
                 .Where(node => node.GetAttributeValue("id", "")
-                .Equals("detailsMoreArea"))
-                .FirstOrDefault()!.Descendants("div")
+                .Equals("detailsMoreArea")).FirstOrDefault();
+
+            var detailTextList = detailsMoreArea!.Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("dataText")).ToList();
 
-            var detailInfoList = doc.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("id", "")
-                .Equals("detailsMoreArea"))
-                .FirstOrDefault()!.Descendants("div")
+            var detailInfoList = detailsMoreArea!.Descendants("div")
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("dataInfo")).ToList();
 
-            var features = doc.DocumentNode.Descendants("div")
+            var features = detailsMoreArea.Descendants("div")
                 .Where(node => node.GetAttributeValue("id", "")
-                .Equals("detailsMoreArea"))
-                .FirstOrDefault()!.Descendants("div")
-                .Where(node => node.GetAttributeValue("id", "")
-                .Equals("dataDetailsArea")).FirstOrDefault()!.InnerText;
+                .Equals("dataDetailsArea")).FirstOrDefault();
 
             for (int i = 0; i < detailTextList.Count; i++)
             {
@@ -160,7 +155,7 @@ namespace HouseSpotter.Server.Scrapers
                     {
                         house.Gyvenviete = info;
                     }break;
-                    case "Gatve:":
+                    case "Gatvė:":
                     {
                         house.Gatve = info;
                     }break;
@@ -221,7 +216,7 @@ namespace HouseSpotter.Server.Scrapers
 
             if(features != null)
             {
-                var featuresList = features.Split(", ");
+                var featuresList = features.InnerText.Split(", ");
                 house.Ypatybes = string.Join("/", featuresList);
             }
         }
@@ -511,7 +506,7 @@ namespace HouseSpotter.Server.Scrapers
                 if (result is Housing) //Means it's a dto
                 {
                     var housing = result as Housing;
-                    
+
                     _housingContext.Housings.Add(housing!);
                     await _housingContext.SaveChangesAsync();
                 }
