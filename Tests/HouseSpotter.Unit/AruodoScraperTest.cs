@@ -25,7 +25,7 @@ namespace HouseSpotter.Unit.Tests
             mockNetworkPuppeteerClient.Setup(client => client.PuppeteerPage!.GoToAsync(It.IsAny<string>(), null, null));
 
             mockNetworkPuppeteerClient.Setup(client => client.PuppeteerPage!.GetContentAsync())
-                                      .ReturnsAsync(staticFixtures.SkelbiuPositiveHtml);
+                                      .ReturnsAsync(staticFixtures.AruodasPositiveHtml);
 
             _scraperClient.NetworkPuppeteerClient = mockNetworkPuppeteerClient.Object;
 
@@ -34,7 +34,7 @@ namespace HouseSpotter.Unit.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Scrape finished successfully", result.Message);
+            Assert.Equal("Full scraping finished successfully.", result.Message);
         }
     }
 }
