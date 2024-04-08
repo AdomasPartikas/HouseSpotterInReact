@@ -58,7 +58,22 @@ namespace HouseSpotter.Unit.Tests
             Assert.Contains("PuppeteerSharp failed to get https://m.sk", result.Message);
         }
 
+        [Fact]
+        public async Task EnrichNewHousingsWithDetails_ShouldUpdateHousingsWithCorrectDetails()
+        {
+            // Arrange
+            var fixture = new ScraperForSkelbiuFixture(); // Initialize the fixture
 
+            // Act
+            var result = await fixture.scraperForSkelbiu.EnrichNewHousingsWithDetails(); // Enrich housings
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Enriching housing details finished successfully.", result.Message); // Check the result message
+
+            // Clean up
+            fixture.Dispose();
+        }
 
     }
 }
