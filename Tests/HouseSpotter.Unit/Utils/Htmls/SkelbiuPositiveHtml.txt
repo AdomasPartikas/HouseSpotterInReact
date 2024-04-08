@@ -63,7 +63,7 @@
             
                             <a href="/skelbimai/nekilnojamasis-turtas/butai/2" id="nextPage"></a>
             
-                            <a href="https://m.skelbiu.lt/index.php?mod=m&amp;action=pages&amp;page=1&amp;total=489&amp;backurl=L3NrZWxiaW1haS9uZWtpbG5vamFtYXNpcy10dXJ0YXMvYnV0YWkv&amp;pagesLink=L3NrZWxiaW1haS9uZWtpbG5vamFtYXNpcy10dXJ0YXMvYnV0YWkve3twYWdlfX0=" id="pagingLink" rel="nofollow">1 - 24 iš 489</a>
+                            <a href="https://m.skelbiu.lt/index.php?mod=m&amp;action=pages&amp;page=1&amp;total=489&amp;backurl=L3NrZWxiaW1haS9uZWtpbG5vamFtYXNpcy10dXJ0YXMvYnV0YWkv&amp;pagesLink=L3NrZWxiaW1haS9uZWtpbG5vamFtYXNpcy10dXJ0YXMvYnV0YWkve3twYWdlfX0=" id="pagingLink" rel="nofollow">1 - 24 iš 20</a>
                     </div>
     
             
