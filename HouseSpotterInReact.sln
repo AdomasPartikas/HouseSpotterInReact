@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HouseSpotterInReact.Server"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3D9B5F08-09FD-4FC4-9107-5E936D616C89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseSpotter.Unit", "HouseSpotterInReact.Server\Tests\HouseSpotter.Unit\HouseSpotter.Unit.csproj", "{2A22BBAD-B032-4BC3-96E4-3415392C127D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseSpotter.Unit", "Tests\HouseSpotter.Unit\HouseSpotter.Unit.csproj", "{2A22BBAD-B032-4BC3-96E4-3415392C127D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
