@@ -1,14 +1,14 @@
 namespace HouseSpotter.Unit.Tests
 {
-    public class ScraperForSkelbiuTests : IClassFixture<ScraperForSkelbiuFixture>
+    public class ScraperForAruodasTests : IClassFixture<ScraperForAruodasFixture>
     {
-        private readonly ScraperForSkelbiu _scraperForSkelbiu;
+        private readonly ScraperForAruodas _scraperForAruodas;
         private readonly HousingContext _mockedHousingContext;
         private readonly ScraperClient _scraperClient;
 
-        public ScraperForSkelbiuTests(ScraperForSkelbiuFixture fixture)
+        public ScraperForAruodasTests(ScraperForAruodasFixture fixture)
         {
-            _scraperForSkelbiu = fixture.scraperForSkelbiu;
+            _scraperForAruodas = fixture.scraperForAruodas;
             _mockedHousingContext = fixture.mockedHousingContext;
             _scraperClient = fixture.scraperClient;
         }
@@ -30,38 +30,11 @@ namespace HouseSpotter.Unit.Tests
             _scraperClient.NetworkPuppeteerClient = mockNetworkPuppeteerClient.Object;
 
             // Act
-            var result = await _scraperForSkelbiu.FindAllHousingPosts();
+            var result = await _scraperForAruodas.FindAllHousingPosts();
 
             // Assert
             Assert.NotNull(result);
             Assert.Equal("Scrape finished successfully", result.Message);
         }
-<<<<<<< HEAD
-
-        [Fact]
-        public async Task FindAllHousingPosts_ShouldHandleScrapingFailureGracefully()
-        {
-            // Arrange
-            var mockNetworkPuppeteerClient = new Mock<NetworkPuppeteerClient>();
-            var staticFixtures = new StaticFixtures();
-
-            // Configure mock to throw an exception when Initialize is called
-            mockNetworkPuppeteerClient.Setup(client => client.Initialize()).ThrowsAsync(new Exception("PuppeteerSharp failed to get https://m.sk"));
-
-            _scraperClient.NetworkPuppeteerClient = mockNetworkPuppeteerClient.Object;
-
-            // Act
-            var result = await _scraperForSkelbiu.FindAllHousingPosts();
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(ScrapeStatus.Failed, result.ScrapeStatus);
-            Assert.Contains("PuppeteerSharp failed to get https://m.sk", result.Message);
-        }
-
-
-
-=======
->>>>>>> 6f67b59383035f226286a773186642b115071609
     }
 }
