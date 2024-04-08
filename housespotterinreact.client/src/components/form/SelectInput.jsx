@@ -1,3 +1,4 @@
+import React from 'react';
 export default function SelectInput({ label, name, options, onChange, multiselect = false }) {
   return (
     <div className="input">

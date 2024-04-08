@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/header";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/form/TextInput";
@@ -40,8 +40,6 @@ function Login() {
         login(data);
         notify(`Sveiki prisijungę, ${data.username}!`, 'success');
         navigate("/megstamiausi");
-      } else {
-        notify('Prisijungti nepavyko.', 'error');
       }
     } catch (error) {
       console.log(error);

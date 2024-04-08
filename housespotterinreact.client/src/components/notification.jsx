@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNotification } from "../contexts/NotificationContext";
 
 const Notification = () => {
@@ -15,6 +16,7 @@ const Notification = () => {
           <span
             className="notification__close"
             onClick={clearNotification}
+            data-testid="close-button"
           ></span>
         </div>
       </div>
