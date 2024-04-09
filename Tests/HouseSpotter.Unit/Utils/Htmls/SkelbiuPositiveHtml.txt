@@ -1,0 +1,116 @@
+<div id="bd">  
+        
+        <div>
+
+    <div class="gallery-list">               
+
+                                <div class="item">
+
+<a href="/skelbimai/metu-laikai-kokybiska-eika-vystytojo-kuriama-nauju-namu-73010863.html" class="gallery-item-element-link js-cfuser-link" data-item-id="73010863">
+    <div class="gallery-item-element   mobile" data-item-id="73010863" id="ads73010863">
+        <div class="l2"></div>
+
+        
+        
+        <div class="img-block">
+            <div class="img-wrapper">
+                <img src="https://aruodas-img.dgn.lt/object_67_115676057/vilnius-visoriai-visoriu-g.jpg">
+            </div>
+
+            <div class="top-left">
+                
+                                    <div class="aruodas" title="Aruodas.lt"></div>
+                
+                
+                            </div>
+            <div class="top-right"><!--
+            --><!--
+
+            --><!--
+
+            --><!--
+        --></div>
+            <div class="bottom-content">
+                
+                                    <div class="js-loan loan " data-href="/luminor-skaiciuokle?id=73010863">Pasidomėti būsto paskola <span></span></div>
+                
+                            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="content-block ">
+                <h3>"Metų laikai“ – kokybiška, „eika“ vystytojo</h3>
+                <div class="info-line">Vilnius, Visoriai, Visorių g., prieš 1 d.</div>
+                                    <div class="params"><div class="param">48.40 m²</div>&nbsp;<div class="param">2 kamb.</div>&nbsp;<div class="param">2/4 a.</div>&nbsp;<div class="param">Centrinis kolektorinis</div>&nbsp;<div class="param">Mūrinis</div></div>
+                            </div>
+
+            <div class="price-line"><div class="price">179 000 €</div><span class="price-for-unit">(3 698 €/m²)</span></div>
+
+                            <button class="js-remember-button bookmark-button " data-login-uri=""></button>
+            
+                    </div>
+    </div>
+</a>
+</div>
+
+                        </div>
+
+    
+
+    
+                    <div id="pagingArea">
+                            <a id="prevPage" style="opacity: 0.5"></a>
+            
+                            <a href="/skelbimai/nekilnojamasis-turtas/butai/2" id="nextPage"></a>
+            
+                            <a href="https://m.skelbiu.lt/index.php?mod=m&amp;action=pages&amp;page=1&amp;total=489&amp;backurl=L3NrZWxiaW1haS9uZWtpbG5vamFtYXNpcy10dXJ0YXMvYnV0YWkv&amp;pagesLink=L3NrZWxiaW1haS9uZWtpbG5vamFtYXNpcy10dXJ0YXMvYnV0YWkve3twYWdlfX0=" id="pagingLink" rel="nofollow">1 - 24 iš 20</a>
+                    </div>
+    
+            
+    </div>
+
+                    
+<footer>
+    <div class="skelbiu-content">
+                    <div class="contacts-block">
+                <div class="skelbiu-help">Skelbiu.lt pagalba: <span>+370 680 55000</span></div>
+                <div class="working-time">Darbo laikas: I-V 08:20 - 17:00, VI, VII 08:20 - 16:00</div>
+            </div>
+        
+        <div class="links-block">
+            <a href="/duk.html" class="skelbiu-link duk">D.U.K.</a>
+            <a href="/naudojimo-taisykles.html" class="skelbiu-link terms">Naudojimo taisyklės</a>
+            <a href="/privatumo-politika.html" class="skelbiu-link privacy">Privatumo politika</a>
+            <a href="#" id="ot-sdk-btn" class="skelbiu-link cookies ot-sdk-show-settings lt">Tvarkyti parinktis</a>
+            <a href="/kontaktai.html" class="skelbiu-link contacts">Kontaktai</a>
+
+                                                <a href="https://m.skelbiu.lt/index.php?mod=maction&amp;action=redirectToProd&amp;rurl=aHR0cHM6Ly93d3cuc2tlbGJpdS5sdC9za2VsYmltYWkvbmVraWxub2phbWFzaXMtdHVydGFzL2J1dGFpLw==" class="skelbiu-link fullversion" rel="nofollow">
+                        Pilna versija                    </a>
+                                <a href="https://m.ru.skelbiu.lt/" class="skelbiu-link lang">По-русски</a>
+                    </div>
+    </div>
+
+            <div class="bcg-content">
+            <div class="bcg-block">
+                <div class="bcg-logo"><img src="https://static.skelbiu.lt/static/images/svg/BCG.svg" alt="BCG Logo"></div>
+                <div class="bcg-projects">
+                    <a href="https://www.skelbiu.lt" class="bcg-project" target="_blank" title="Skelbimai: lankomiausias Lietuvoje pardavimo, nuomos ir kitų skelbimų portalas">Skelbiu.lt</a>
+                    <a href="https://www.cvbankas.lt" class="bcg-project" target="_blank" title="Darbo skelbimai">CVbankas.lt</a>
+                    <a href="https://www.auto24.ee" class="bcg-project" target="_blank" title="Uued ja kasutatud sõidukid">Auto24.ee</a>
+                    <a href="https://www.kuldnebors.ee" class="bcg-project" target="_blank" title="Töö ja koolitus, sõidukid, autod, kinnisvara ja muud kuulutused">KuldneBörs.ee</a>
+                    <a href="https://www.getapro.lv" class="bcg-project" target="_blank" title="Ērts online-serviss, lai meklētu pārbaudītus speciālistus jebkuriem sadzīves un profesionāliem pakalpojuma veidiem">Getapro.lv</a>
+                    <a href="https://www.autoplius.lt" class="bcg-project" target="_blank" title="Automobilių skelbimai, automobiliai ir motociklai kiekvienam">Autoplius.lt</a>
+                    <a href="https://www.paslaugos.lt" class="bcg-project" target="_blank" title="Paslaugos: Įmonės, Meistrai, Specialistai, Freelanceriai, Profesionalai">Paslaugos.lt</a>
+                    <a href="https://www.kv.ee" class="bcg-project" target="_blank" title="Kinnisvara pakkumised - korterid majad maad äripinnad.">KV.ee</a>
+                    <a href="https://www.city24.ee" class="bcg-project" target="_blank" title="Kinnisvara - korterid majad äripinnad maa ost müük rent üür">City24.ee</a>
+                    <a href="https://www.getapro.ee" class="bcg-project" target="_blank" title="Mugav veebiteenus usaldusväärsete spetsialistide leidmiseks kõigi majapidamis- ja eriteenuste jaoks">Getapro.ee</a>
+                    <a href="https://www.aruodas.lt" class="bcg-project" target="_blank" title="Nekilnojamo turto skelbimai">Aruodas.lt</a>
+                    <a href="https://www.kainos.lt" class="bcg-project" target="_blank" title="Kainų palyginimo portalas">Kainos.lt</a>
+                    <a href="https://www.osta.ee/" class="bcg-project" target="_blank" title="Oksjonid, e-poed ja Eesti Disain - rohkelt eripakkumisi">Osta.ee</a>
+                    <a href="https://www.city24.lv" class="bcg-project" target="_blank" title="Nekustamo īpašumu portāls – dzīvokļi, mājas, zemes, komercplatības- pārdod un izīrē">City24.lv</a>
+                </div>
+            </div>
+            <div class="copyrights">2003 - 2024 © UAB „Diginet LTU“</div>
+        </div>
+    </footer>
+            </div>

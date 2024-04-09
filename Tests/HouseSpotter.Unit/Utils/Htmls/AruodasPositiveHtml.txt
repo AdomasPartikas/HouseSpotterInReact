@@ -1,0 +1,119 @@
+<ul class="search-result-list-big_thumbs">
+    
+                                
+                                                        
+                                                        
+                                                        
+                                                        
+                            
+                                
+                                                        
+                                                        
+                                                        
+                                                        
+                            
+                                
+                                                        
+                                                        
+                                                        
+                                                        
+                        
+
+                                
+                                                        
+                                                        
+                                                        
+                                                        
+                        
+
+                                
+                                                        
+                                                        
+                                                        
+                                                        <li class="
+        result-item-big-thumb
+                                    " data-id="loadobject1-3418977" id="objectRow1-3418977">
+
+    
+    <div class="a-image-wrapper">
+                <div class="object-loader-container hide" id="loadobject1-3418977"><span class="object-loader"></span></div>
+                    <a onclick="setVisited(this)" class="object-image-link-big_thumbs" href="/butai-vilniuje-senamiestyje-gedimino-pr-visus-norincius-apziureti-kvieciame-atvykti-i-1-3418977/?return_url=%2Fbutai%2F%3Fobj%3D1">
+<picture id="pictureContainer3418977-276">
+
+                    <source data-src="https://aruodas-img.dgn.lt/object_67_116430861/vilnius-senamiestis-gedimino-pr.jpg" media="(max-width: 465px)">
+            <source data-src="https://aruodas-img.dgn.lt/object_62_116430861/vilnius-senamiestis-gedimino-pr.jpg" media="(min-width: 466px)">
+            <img class="impression-log-class" data-objid="1" data-id="3418977" data-src="https://aruodas-img.dgn.lt/object_67_116430861/vilnius-senamiestis-gedimino-pr.jpg" alt="Vilnius, Senamiestis, Gedimino pr., 3 kambarių butas" title="Vilnius, Senamiestis, Gedimino pr., 3 kambarių butas | Aruodas.lt" src="https://aruodas-img.dgn.lt/object_67_116430861/vilnius-senamiestis-gedimino-pr.jpg">
+            </picture>
+    <div class="lazy-spinner" data-id="pictureContainer3418977-276">
+    <img src="https://static.aruodas.lt/static/svg/object/nophoto.svg" alt="Loading">
+    </div>
+</a>
+                            <div class="icons-on-top-container-v2  ">
+        <div class="icon-on-top-container">
+        <div data-action="save_obj " data-id="1-3418977" class="
+                remember-icon
+                advert-controls-save-v2
+                advert-controls
+                action-button-js-hook
+                            ">
+        </div>
+                    </div>
+            <div class="icon-house-list">
+            <div class="house-count">8</div>
+        </div>
+        <div class="strips-on-top">
+        <div class="strips-on-top-helper"></div>
+                                
+                    <div class="open-door-outer-wrapper ">
+                <div class="open-door-wrapper mobile long-door">
+                                            <a class="open-door-container" href="/open-door-registration/?id=338599&amp;uniqueId=1-3418977&amp;type=order&amp;return_url=%2Fbutai%2F%3Fobj%3D1">
+                                        <div class="open-door-text"><div class="open-door-icon"></div>                        <span class="accent">Atviros durys</span>: balandžio 12 d.<span class="long-door-hour">, 16-18  val.</span>
+                                        </div><div class="register">»</div>
+                    </a>
+                </div>
+            </div>
+                    </div>
+</div>
+    </div>
+    <a class="result-item-info-container-big_thumbs" href="/butai-vilniuje-senamiestyje-gedimino-pr-visus-norincius-apziureti-kvieciame-atvykti-i-1-3418977/?return_url=%2Fbutai%2F%3Fobj%3D1">
+        <span class="result-item-info-v4">
+            <div class="price-flex">
+                <span class="item-price-main-v4">
+                    <span class="price-main">289 000 €</span>
+                                            <span class="price-per">
+                            5 065 €/m²                        </span>
+                        
+                </span>
+                        <div class="price-separator">
+        <div class="price-separator-symbol"></div>
+    </div>
+    <div class="result-item-luminor-container">
+        <div class="luminor-texts">
+            Pasidomėkite<br>
+            būsto paskola
+        </div>
+        <img class="luminor-arrow" src="https://static.aruodas.lt/static/svg/banners/right-arrow-purple-v2.svg">
+        <div data-uniqueid="1-3418977" class="luminor-click-area" onclick="onClickLuminor(event); return false"></div>
+    </div>
+                </div>
+            <div class="item-address-v4">
+                                Vilnius, Senamiestis, Gedimino pr.            </div>
+            <div class="item-description-v4">
+                3 k. <span class="sep">&nbsp;|&nbsp; </span>57,06 m² <span class="sep">&nbsp;|&nbsp; </span>6/6 aukšt. <span class="sep">&nbsp;|&nbsp; </span>1887 m. <span class="sep">&nbsp;|&nbsp; </span>mūrinis <span class="sep">&nbsp;|&nbsp; </span>centrinis kolektorinis <span class="sep">&nbsp;|&nbsp; </span>įrengtas            </div>
+                                                                    </span>
+    </a>
+        </li>
+                            </ul>
+<div class="nav-toolbar-v2">
+        <div class="page-select-v2">
+            <span>Pasirinkite puslapį</span>
+            <br>
+            <a href="/?obj=1&amp;act=select&amp;type=Page&amp;advertCount=8837&amp;Page=1" rel="nofollow">
+                1 iš 354                <span class="icon-arrow-down"></span>
+            </a>
+        </div>
+        <div class="button-next-v2">
+                            <a href="/butai/puslapis/2/?obj=1">
+                    Kitas                    <span class="icon-arrow-next-page"></span></a>
+                    </div>
+    </div>
