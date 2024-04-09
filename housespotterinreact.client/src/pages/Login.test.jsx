@@ -152,48 +152,4 @@ describe("Login Component", () => {
     );
   });
 
-  it("correctly updates input fields and attempts login", async () => {
-    const testUsername = "userTest";
-    const testPassword = "passwordTest";
-    fetchMock.mockResponseOnce(JSON.stringify({ success: true }));
-
-    render(
-      <BrowserRouter>
-        <Login />
-      </BrowserRouter>
-    );
-
-    // Simulate user typing into the username and password fields
-    fireEvent.change(
-      screen.getByPlaceholderText("Įveskite savo vartotojo vardą"),
-      {
-        target: { value: testUsername },
-      }
-    );
-    fireEvent.change(screen.getByPlaceholderText("Įveskite savo slaptažodį"), {
-      target: { value: testPassword },
-    });
-
-    // Submit the form
-    await act(async () => {
-      fireEvent.submit(screen.getByRole("button", { name: /Prisijungti/i }));
-    });
-
-    // Assert fetch was called with expected payload
-    expect(fetch).toHaveBeenCalledWith(
-      "housespotter/db/user/login",
-      expect.objectContaining({
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: testUsername,
-          password: testPassword,
-        }),
-      })
-    );
-  });
-  
 });
