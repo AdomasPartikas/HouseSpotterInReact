@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseSpotterInReact.Server"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "housespotterinreact.client", "housespotterinreact.client\housespotterinreact.client.esproj", "{6B9D2976-8E19-4A72-8A8C-B80D2579D8CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EAE9383D-AD01-4E73-9BB1-8BD8BCA29F6F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseSpotter.Integration", "Tests\HouseSpotter.Integration\HouseSpotter.Integration.csproj", "{BB9B9948-84E3-4597-BC32-01B8C9743232}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HouseSpotterInReact.Server", "HouseSpotterInReact.Server", "{0F35B8FA-99F2-4E3A-8E8B-8E6199780C06}"
