@@ -316,6 +316,29 @@ namespace HouseSpotter.Server.Controllers
         {
             try
             {
+                if(body == null)
+                {
+                    return BadRequest("User registration information is missing.");
+                }
+
+                if(string.IsNullOrEmpty(body.Username) || string.IsNullOrEmpty(body.Password) || string.IsNullOrEmpty(body.Email) || string.IsNullOrEmpty(body.PhoneNumber))
+                {
+                    return BadRequest("User registration information is missing.");
+                }
+
+                var existingUsername = await _housingContext.Users.Where(u => u.Username == body.Username).FirstOrDefaultAsync();
+                var existingEmail = await _housingContext.Users.Where(u => u.Email == body.Email).FirstOrDefaultAsync();
+
+                if(existingUsername != null)
+                {
+                    return BadRequest("Username already exists.");
+                }
+
+                if(existingEmail != null)
+                {
+                    return BadRequest("Email already exists.");
+                }
+                
                 var user = new User
                 {
                     Username = body.Username,
