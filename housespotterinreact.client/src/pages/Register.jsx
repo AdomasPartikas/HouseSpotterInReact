@@ -57,6 +57,8 @@ function Register() {
           "success"
         );
         navigate("/prisijungti");
+      } else {
+        notify("Registracija nepavyko.", "error");
       }
     } catch (error) {
       console.log(error);
