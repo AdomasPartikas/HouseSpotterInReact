@@ -321,7 +321,7 @@ namespace HouseSpotter.Server.Controllers
                     return BadRequest("User registration information is missing.");
                 }
 
-                if(string.IsNullOrEmpty(body.Username) || string.IsNullOrEmpty(body.Password) || string.IsNullOrEmpty(body.Email) || string.IsNullOrEmpty(body.PhoneNumber))
+                if(string.IsNullOrEmpty(body.Username) || string.IsNullOrEmpty(body.Password) || string.IsNullOrEmpty(body.Email))
                 {
                     return BadRequest("User registration information is missing.");
                 }
@@ -338,7 +338,7 @@ namespace HouseSpotter.Server.Controllers
                 {
                     return BadRequest("Email already exists.");
                 }
-                
+
                 var user = new User
                 {
                     Username = body.Username,
