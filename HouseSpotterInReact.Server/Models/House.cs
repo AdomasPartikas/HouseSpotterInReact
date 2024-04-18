@@ -20,7 +20,7 @@ namespace HouseSpotter.Server.Models
         /// <summary>
         /// Gets or sets the Nuotrauka of the housing.
         /// </summary>
-        public byte[]? Nuotrauka { get; set; }
+        public string? Nuotrauka { get; set; }
 
         /// <summary>
         /// Gets or sets the Link of the housing.
@@ -41,6 +41,16 @@ namespace HouseSpotter.Server.Models
         /// Gets or sets the Kaina of the housing.
         /// </summary>
         public double? Kaina { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Gyvenviete of the housing.
+        /// </summary>
+        public string? Gyvenviete { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Gatve of the housing.
+        /// </summary>
+        public string? Gatve { get; set; }
 
         /// <summary>
         /// Gets or sets the KainaMen of the housing.

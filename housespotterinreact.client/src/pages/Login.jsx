@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/header";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/form/TextInput";
@@ -40,8 +40,6 @@ function Login() {
         login(data);
         notify(`Sveiki prisijungę, ${data.username}!`, 'success');
         navigate("/megstamiausi");
-      } else {
-        notify('Prisijungti nepavyko.', 'error');
       }
     } catch (error) {
       console.log(error);
@@ -59,6 +57,7 @@ function Login() {
               event.preventDefault();
               loginUser();
             }}
+            data-testid="login-form"
           >
             <h1>Prisijungti</h1>
             <TextInput
@@ -68,6 +67,7 @@ function Login() {
               inputType="text"
               value={username}
               onChange={handleInputChange}
+              data-testid="username-input"
             />
             <TextInput
               label="Slaptažodis"
@@ -76,12 +76,13 @@ function Login() {
               inputType="password"
               value={password}
               onChange={handleInputChange}
+              data-testid="password-input"
             />
-            <button type="submit" className="primary__btn">
+            <button type="submit" className="primary__btn" data-testid="login-submit">
               Prisijungti
             </button>
             <p>Neturite paskyros?</p>
-            <Link to="/registruotis" className="secondary__btn">
+            <Link to="/registruotis" className="secondary__btn" data-testid="register-link">
               Registruotis
             </Link>
           </form>

@@ -522,7 +522,7 @@ namespace HouseSpotter.Server.Scrapers
 
                         var node = pageSelect!.Descendants("a").FirstOrDefault()!.InnerText;
 
-                        pageCount = Convert.ToInt32(node.Remove(0, 21).Trim());
+                        pageCount = Convert.ToInt32(Regex.Match(node, @"\d+ iš (\d+)").Groups[1].Value);
                     }
 
                     var abstractList = doc.DocumentNode.Descendants("ul")

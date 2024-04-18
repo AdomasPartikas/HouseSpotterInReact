@@ -1,3 +1,4 @@
+import React from 'react';
 export default function TextInput({ label, name, nameFrom, nameTo, placeholder, placeholderFrom, placeholderTo, inputType="text", onChange }) {
   if (nameFrom && nameTo) {
     return (

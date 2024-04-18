@@ -1,3 +1,4 @@
+import React from 'react';
 export default function CheckboxInput({ label, name, onChange }) {
   return (
     <label htmlFor={name} className="checkbox">

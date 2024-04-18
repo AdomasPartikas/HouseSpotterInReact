@@ -34,6 +34,8 @@ namespace HouseSpotter.Server.DAL
                 BustoTipas = "Butas",
                 Title = "Jaukus butas Vilniaus senamiestyje",
                 Kaina = 200000.00,
+                Gyvenviete = "Vilnius",
+                Gatve = "Senamiestis",
                 KainaMen = 600.00,
                 NamoNumeris = "5A",
                 ButoNumeris = "12",
@@ -66,6 +68,8 @@ namespace HouseSpotter.Server.DAL
                 BustoTipas = "Namas",
                 Title = "Šiuolaikiškas namas su dideliu sklypu",
                 Kaina = 350000.00,
+                Gyvenviete = "Kaunas",
+                Gatve = "Žaliakalnis",
                 KainaMen = null, // Nes pirkimas, ne nuoma
                 NamoNumeris = "8",
                 ButoNumeris = null, // Nes tai namas, o ne butas

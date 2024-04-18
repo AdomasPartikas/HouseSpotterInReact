@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/header";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/form/TextInput";
@@ -61,6 +61,7 @@ function Register() {
         notify("Registracija nepavyko.", "error");
       }
     } catch (error) {
+      console.log(error);
       notify("Registracija nepavyko.", "error");
     }
   }

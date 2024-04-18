@@ -30,7 +30,7 @@ namespace HouseSpotter.Server.Utils
         /// Initializes the Puppeteer client by downloading the browser, launching it, and creating a new page instance.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task Initialize()
+        public virtual async Task Initialize()
         {
             await new BrowserFetcher().DownloadAsync();
 
@@ -51,16 +51,16 @@ namespace HouseSpotter.Server.Utils
         /// <summary>
         /// Gets or sets a value indicating whether the Puppeteer client has been initialized.
         /// </summary>
-        public bool PuppeteerInitialized = false;
+        public virtual bool PuppeteerInitialized { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the Puppeteer browser instance.
         /// </summary>
-        public IBrowser? PuppeeteerBrowser;
+        public virtual IBrowser? PuppeeteerBrowser {get; set;}
 
         /// <summary>
         /// Gets or sets the Puppeteer page instance.
         /// </summary>
-        public IPage? PuppeteerPage;
+        public virtual IPage? PuppeteerPage {get; set;}
     }
 }

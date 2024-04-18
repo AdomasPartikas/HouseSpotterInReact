@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import FormSection from "../components/form/FormSection";
 import ProductCard from "../components/productCard";
@@ -268,7 +268,8 @@ function Home() {
       try {
         const response = await fetch("/housespotter/db/getallhousing");
         if (!response.ok) throw new Error("Data could not be fetched");
-        const data = await response.json();
+        let data = await response.json();
+        
         setHousingData(data);
       } catch (error) {
         console.error("Fetching error:", error);
@@ -276,7 +277,7 @@ function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [formData]);
 
   return (
     <div className="home">
