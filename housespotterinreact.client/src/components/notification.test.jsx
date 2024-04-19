@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Notification from "./notification";
+import Notification from "./Notification";
 import * as NotificationContext from "../contexts/NotificationContext";
 
 jest.mock("../contexts/NotificationContext", () => ({

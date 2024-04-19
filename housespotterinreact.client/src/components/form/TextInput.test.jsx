@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import TextInput from "./textInput";
+import TextInput from "./TextInput";
 import fetchMock from "jest-fetch-mock";
 
 fetchMock.enableMocks();

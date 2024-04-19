@@ -1,7 +1,7 @@
 import React from "react";
-import TextInput from "./textInput";
-import SelectInput from "./selectInput";
-import CheckboxInput from "./checkboxInput";
+import TextInput from "./TextInput";
+import SelectInput from "./SelectInput";
+import CheckboxInput from "./CheckboxInput";
 
 import PropTypes from "prop-types";
 

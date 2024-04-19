@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import Header from "../components/header";
-import ProductList from "../components/productList";
+import Header from "../components/Header";
+import ProductList from "../components/ProductList";
 
 function Favorite() {
   const { user, refreshFavoriteHousing } = useAuth();

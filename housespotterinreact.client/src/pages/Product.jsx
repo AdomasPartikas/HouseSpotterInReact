@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Header from "../components/header";
+import Header from "../components/Header";
 
 function Product() {
   let { productId } = useParams();

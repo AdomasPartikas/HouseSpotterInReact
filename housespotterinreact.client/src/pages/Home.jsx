@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../components/header";
-import FilterForm from "../components/filterForm";
-import ProductList from "../components/productList";
+import Header from "../components/Header";
+import FilterForm from "../components/FilterForm";
+import ProductList from "../components/ProductList";
 import { useHousingData } from "../utils/useHousingData";
 
 function Home() {
