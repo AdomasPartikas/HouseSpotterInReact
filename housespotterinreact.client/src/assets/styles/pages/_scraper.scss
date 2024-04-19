@@ -1,0 +1,52 @@
+.scraper {
+  h1 {
+    font-size: 3.2rem;
+    font-weight: 600;
+    color: $black;
+    margin: 4rem 0 2rem;
+  }
+
+  .scraper-form {
+    @include center(0, 0, 0);
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    padding: 3rem;
+    background: $white;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.3);
+    width: 100%;
+
+    & + .scraper-form {
+      margin-top: 2rem;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      width: 100%;
+      font-size: 2rem;
+      font-weight: 400;
+      color: $black;
+    }
+
+    button {
+      @include center(0, center, center);
+      appearance: none;
+      border: none;
+      padding: 1rem 3rem;
+      border-radius: 0.6rem;
+      background: $accent;
+      font-size: 1.6rem;
+      color: $white;
+      height: 4.2rem;
+      cursor: pointer;
+      transition: filter 0.3s;
+      width: 100%;
+      margin: auto 0 0 0;
+      max-width: max-content;
+
+      &:hover {
+        filter: brightness(1.4);
+      }
+    }
+  }
+}

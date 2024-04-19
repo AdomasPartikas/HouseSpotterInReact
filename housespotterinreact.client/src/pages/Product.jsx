@@ -43,7 +43,7 @@ function Product() {
           <div className="product__block">
             <div className="product__photo"></div>
             <div className="product__content">
-              <h1>{product.title}</h1>
+              <h1><a href={product.link}>{product.title}</a></h1>
               <p>
                 Būsto tipas:{" "}
                 <span>
