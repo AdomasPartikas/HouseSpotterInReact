@@ -2,7 +2,7 @@ import "./assets/styles/app.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { NotificationProvider } from "./contexts/NotificationContext";
-import Notification from "./components/Notification";
+import Notification from "./components/notification";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Login from "./pages/Login";
