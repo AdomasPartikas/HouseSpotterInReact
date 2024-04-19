@@ -1,6 +1,6 @@
 import React from "react";
-import FormSection from "./form/formSection";
-import { objectType, sortingOptions } from "./filterOptions";
+import FormSection from "./form/FormSection";
+import { objectType, sortingOptions } from "./FilterOptions";
 
 import PropTypes from "prop-types";
 

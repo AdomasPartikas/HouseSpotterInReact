@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../components/header";
+import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
-import TextInput from "../components/form/textInput";
+import TextInput from "../components/form/TextInput";
 import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
 
