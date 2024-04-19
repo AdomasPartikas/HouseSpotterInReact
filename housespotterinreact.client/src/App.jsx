@@ -8,6 +8,7 @@ import Product from "./pages/Product";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Favorite from "./pages/Favorite";
+import Scraper from "./pages/Scraper";
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
             <Route path="/registruotis" element={<Register />} />
             <Route path="/megstamiausi" element={<Favorite />} />
             <Route path="/skelbimas/:productId" element={<Product />} />
+            <Route path="/scraper" element={<Scraper />} />
           </Routes>
           <Notification />
         </NotificationProvider>

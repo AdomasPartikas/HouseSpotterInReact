@@ -1,6 +1,6 @@
 .product {
   padding: 0 0 8rem;
-  
+
   .product__block {
     @include center(0, 0, flex-start);
     gap: 6rem;
@@ -29,6 +29,15 @@
     font-size: 2.4rem;
     color: $black;
     text-transform: uppercase;
+    a {
+      color: $black;
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+      &:hover {
+        color: $accent;
+        text-decoration: underline;
+      }
+    }
   }
 
   p {
@@ -55,5 +64,4 @@
       text-transform: uppercase;
     }
   }
-
 }

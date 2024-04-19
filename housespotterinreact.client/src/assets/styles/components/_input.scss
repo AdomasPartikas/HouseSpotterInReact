@@ -20,7 +20,7 @@
   }
 
   select {
-    @include background($white, 'chevron.svg', no-repeat, right 1.6rem center, 1.1rem auto);
+    @include background($white, '/chevron.svg', no-repeat, right 1.6rem center, 1.1rem auto);
     padding: 0 4.3rem 0 1.6rem;
   }
 
