@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Notification from "./notification";
-import * as NotificationContext from '../contexts/NotificationContext';
+import * as NotificationContext from "../contexts/NotificationContext";
 
 jest.mock("../contexts/NotificationContext", () => ({
   useNotification: jest.fn(),
@@ -51,7 +51,7 @@ describe("Notification Component", () => {
   });
   it("does not render notification if message is empty", () => {
     // Mock the useNotification hook right inside your test
-    jest.spyOn(NotificationContext, 'useNotification').mockReturnValue({
+    jest.spyOn(NotificationContext, "useNotification").mockReturnValue({
       notification: {},
       clearNotification: jest.fn(),
     });

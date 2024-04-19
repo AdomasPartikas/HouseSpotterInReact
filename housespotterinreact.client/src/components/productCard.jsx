@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
 
-function ProductCard({ product }) {
+import PropTypes from "prop-types";
+
+const ProductCard = ({ product }) => {
   const { user, refreshFavorites } = useAuth();
   const { notify } = useNotification();
 
@@ -141,6 +143,10 @@ function ProductCard({ product }) {
       </div>
     </div>
   );
-}
+};
+
+ProductCard.propTypes = {
+  product: PropTypes.object.isRequired,
+};
 
 export default ProductCard;

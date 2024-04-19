@@ -23,10 +23,12 @@ export const AuthProvider = ({ children }) => {
 
   const refreshFavorites = () => {
     setRefreshFavoriteHousing(!refreshFavoriteHousing);
-  }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, refreshFavorites, refreshFavoriteHousing }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, refreshFavorites, refreshFavoriteHousing }}
+    >
       {children}
     </AuthContext.Provider>
   );

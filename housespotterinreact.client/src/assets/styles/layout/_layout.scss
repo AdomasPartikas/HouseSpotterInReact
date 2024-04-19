@@ -1,4 +1,4 @@
-@import './products';
+@import './products', './filters';
 
 .layout {
   max-width: calc(120rem + 2 * $padding);

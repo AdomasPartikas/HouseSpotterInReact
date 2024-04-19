@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Header from "./header";
+import Header from "./Header";
 import { BrowserRouter } from "react-router-dom";
 
 // Mocks for useAuth and useNotification hooks

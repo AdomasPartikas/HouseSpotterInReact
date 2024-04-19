@@ -46,7 +46,7 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/housespotter/db/': {
+            '^/housespotter/': {
                 target: 'http://localhost:5016/',
                 secure: false,
             }
