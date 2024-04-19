@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Header from "../components/header";
 import { Link, useNavigate } from "react-router-dom";
-import TextInput from "../components/form/TextInput";
+import TextInput from "../components/form/textInput";
 import { useAuth } from "../contexts/AuthContext";
-import { useNotification } from '../contexts/NotificationContext';
+import { useNotification } from "../contexts/NotificationContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -38,12 +38,12 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         login(data);
-        notify(`Sveiki prisijungę, ${data.username}!`, 'success');
+        notify(`Sveiki prisijungę, ${data.username}!`, "success");
         navigate("/megstamiausi");
       }
     } catch (error) {
       console.log(error);
-      notify('Prisijungti nepavyko.', 'error');
+      notify("Prisijungti nepavyko.", "error");
     }
   }
 
@@ -78,11 +78,19 @@ function Login() {
               onChange={handleInputChange}
               data-testid="password-input"
             />
-            <button type="submit" className="primary__btn" data-testid="login-submit">
+            <button
+              type="submit"
+              className="primary__btn"
+              data-testid="login-submit"
+            >
               Prisijungti
             </button>
             <p>Neturite paskyros?</p>
-            <Link to="/registruotis" className="secondary__btn" data-testid="register-link">
+            <Link
+              to="/registruotis"
+              className="secondary__btn"
+              data-testid="register-link"
+            >
               Registruotis
             </Link>
           </form>

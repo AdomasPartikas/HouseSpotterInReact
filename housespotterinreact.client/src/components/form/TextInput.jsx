@@ -1,5 +1,17 @@
-import React from 'react';
-export default function TextInput({ label, name, nameFrom, nameTo, placeholder, placeholderFrom, placeholderTo, inputType="text", onChange }) {
+import React from "react";
+import PropTypes from "prop-types";
+
+function TextInput({
+  label,
+  name,
+  nameFrom,
+  nameTo,
+  placeholder,
+  placeholderFrom,
+  placeholderTo,
+  inputType = "text",
+  onChange,
+}) {
   if (nameFrom && nameTo) {
     return (
       <div className="input double">
@@ -41,3 +53,17 @@ export default function TextInput({ label, name, nameFrom, nameTo, placeholder, 
     </div>
   );
 }
+
+TextInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  nameFrom: PropTypes.string,
+  nameTo: PropTypes.string,
+  placeholder: PropTypes.string,
+  placeholderFrom: PropTypes.string,
+  placeholderTo: PropTypes.string,
+  inputType: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
+
+export default TextInput;
