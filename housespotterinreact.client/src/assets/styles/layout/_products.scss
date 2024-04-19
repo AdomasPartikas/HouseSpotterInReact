@@ -16,6 +16,12 @@
       }
     }
 
+    .not-found {
+      font-size: 1.8rem;
+      color: $black;
+      font-weight: 400;
+    }
+
     .product {
       @include center(0, 0, 0);
       background: $white;
@@ -86,7 +92,8 @@
         cursor: pointer;
         transition: background 0.3s;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
           @include background(0, 'heart__hover.svg', 0, 0, 0);
         }
       }

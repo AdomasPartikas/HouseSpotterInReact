@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/header";
 import { Link, useNavigate } from "react-router-dom";
-import TextInput from "../components/form/TextInput";
+import TextInput from "../components/form/textInput";
 import { useNotification } from "../contexts/NotificationContext";
 
 function Register() {

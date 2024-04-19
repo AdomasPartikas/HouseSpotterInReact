@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
@@ -12,7 +12,7 @@ const Header = () => {
     logout();
     notify("Sėkmingai atsijungėte!", "success");
     navigate("/");
-  }
+  };
 
   return (
     <header>
