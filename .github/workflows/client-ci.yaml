@@ -2,9 +2,9 @@ name: Client CI
 
 on:
   push:
-    branches: [ main, PatrikoFeatures]
+    branches: [ main, PatrikoFeatures, MartynoFeatures]
   pull_request:
-    branches: [ main, PatrikoFeatures]
+    branches: [ main, PatrikoFeatures, MartynoFeatures]
 
 jobs:
   build:
