@@ -82,12 +82,15 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product">
+    <div className="product" data-product-id={product.id}>
       <div className="product__photo"></div>
       <div className="product__content">
         <Link to={`/skelbimas/${product.id}`} className="product__title">
           {product.title ? product.title : "Neskelbiama"}
         </Link>
+        <div className="product__scraper">
+          {product.link.includes("domoplius") ? "Domoplius" : product.link.includes("aruodas") ? "Aruodas" : "Skelbiu"}
+        </div>
         <button
           className={`product__favorite ${isInSavedSearches ? "active" : ""}`}
           onClick={handleFavoriteButton}
