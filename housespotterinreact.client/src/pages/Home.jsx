@@ -5,7 +5,6 @@ import ProductList from "../components/ProductList";
 import { useHousingData } from "../utils/useHousingData";
 
 function Home() {
-  // const [filter, setFilter] = useState(false);
   const [filtered, setFiltered] = useState(false);
   const { filtersData, housingData } = useHousingData();
 
