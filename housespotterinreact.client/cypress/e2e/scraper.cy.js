@@ -1,10 +1,18 @@
+Cypress.Commands.add('screenshotOnFail', function () {
+  cy.screenshot({ capture: 'runner' });
+});
+
+afterEach(function () {
+  cy.screenshotOnFail();
+});
+
 describe('Scraper page functionality', () => {
   beforeEach(() => {
     cy.visit('/scraper');
   });
 
   it('Atvaizduoja visų scraperių formas', () => {
-    cy.get('.scraper-form').should('have.length', 3); // Assuming there are 3 forms
+    cy.get('.scraper-form').should('have.length', 3);
   });
 
   const scraperTests = [
@@ -73,6 +81,6 @@ describe('Scraper page functionality', () => {
       // Check for a success notification
       cy.contains('Operacija pavyko').should('be.visible');
     });
-    
+
   });
 });
