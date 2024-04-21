@@ -31,6 +31,9 @@ jobs:
       - name: Test
         run: npm run test
         working-directory: housespotterinreact.client
+      - name: Backend run
+        run: dotnet run
+        working-directory: HouseSpotterInReact.Server
       - name: Cypress E2E tests
         run: npx cypress run
         working-directory: housespotterinreact.client
