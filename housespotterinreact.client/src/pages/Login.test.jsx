@@ -21,22 +21,20 @@ jest.mock("../contexts/NotificationContext", () => ({
   })),
 }));
 
-
 describe("Login Component", () => {
   let notifyMock;
 
   beforeEach(() => {
     fetchMock.resetMocks();
-  
+
     // Reset and redefine the mock for useNotification
     const notify = jest.fn();
     NotificationContext.useNotification.mockImplementation(() => ({
-      notify
+      notify,
     }));
     // Assign the mock function for later assertion
     notifyMock = notify;
   });
-  
 
   it("allows the user to log in with correct credentials", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ username: "Test1" })); // Mock successful login response
@@ -151,5 +149,4 @@ describe("Login Component", () => {
       })
     );
   });
-
 });

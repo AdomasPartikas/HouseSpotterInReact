@@ -16,6 +16,12 @@
       }
     }
 
+    .not-found {
+      font-size: 1.8rem;
+      color: $black;
+      font-weight: 400;
+    }
+
     .product {
       @include center(0, 0, 0);
       background: $white;
@@ -73,6 +79,13 @@
         }
       }
 
+      .product__scraper {
+        font-size: 1.4rem;
+        color: $black;
+        padding: 0 4.7rem 0 0;
+        margin: 1rem 0 0 0;
+      }
+
       .product__favorite {
         @include background($white, 'heart.svg', no-repeat, center, contain);
         width: 2.7rem;
@@ -86,7 +99,8 @@
         cursor: pointer;
         transition: background 0.3s;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
           @include background(0, 'heart__hover.svg', 0, 0, 0);
         }
       }

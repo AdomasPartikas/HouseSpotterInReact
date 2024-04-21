@@ -1,3 +1,11 @@
+Cypress.Commands.add('screenshotOnFail', function () {
+  cy.screenshot({ capture: 'runner' });
+});
+
+afterEach(function () {
+  cy.screenshotOnFail();
+});
+
 describe('Prisijungimo funkcionalumas', () => {
   beforeEach(() => {
     cy.visit('/prisijungti');
@@ -13,12 +21,12 @@ describe('Prisijungimo funkcionalumas', () => {
     cy.contains('Sveiki prisijungę, user!');
   });
 
-it('Prisijungimas nepavyksta su neteisingu slaptažodžiu', () => {
-  cy.intercept('POST', 'housespotter/db/user/login', { statusCode: 204 }).as('loginFailure');
-  cy.get('input[name="text"]').type('user');
-  cy.get('input[name="password"]').type('wrongpassword');
-  cy.get('button[type="submit"]').click();
-  cy.wait('@loginFailure');
-  cy.contains('Prisijungti nepavyko.');
-});
+  it('Prisijungimas nepavyksta su neteisingu slaptažodžiu', () => {
+    cy.intercept('POST', 'housespotter/db/user/login', { statusCode: 204 }).as('loginFailure');
+    cy.get('input[name="text"]').type('user');
+    cy.get('input[name="password"]').type('wrongpassword');
+    cy.get('button[type="submit"]').click();
+    cy.wait('@loginFailure');
+    cy.contains('Prisijungti nepavyko.');
+  });
 });

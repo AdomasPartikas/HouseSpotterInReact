@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import Header from "../components/header";
-import ProductCard from "../components/productCard";
+import Header from "../components/Header";
+import ProductList from "../components/ProductList";
 
 function Favorite() {
   const { user, refreshFavoriteHousing } = useAuth();
@@ -27,16 +27,7 @@ function Favorite() {
   return (
     <div className="favorite">
       <Header />
-      <div className="products">
-        <div className="layout">
-          <h2>
-            Mėgstamiausi <span>({favoritesData.length})</span>
-          </h2>
-          {favoritesData.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
+      <ProductList title={"Mėgstamiausi"} housingData={favoritesData} />
     </div>
   );
 }
