@@ -1,3 +1,11 @@
+Cypress.Commands.add('screenshotOnFail', function () {
+  cy.screenshot({ capture: 'runner' });
+});
+
+afterEach(function () {
+  cy.screenshotOnFail();
+});
+
 describe('Registration Functionality', () => {
   beforeEach(() => {
     cy.visit('/registruotis');
