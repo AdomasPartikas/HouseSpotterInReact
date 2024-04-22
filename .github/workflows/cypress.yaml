@@ -7,6 +7,19 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.21
+        env:
+          MYSQL_ROOT_PASSWORD: mysecretpassword
+          MYSQL_DATABASE: housespotter
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       fail-fast: false
       matrix:
@@ -25,7 +38,7 @@ jobs:
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Start ASP.NET Core backend
-        run: dotnet run
+        run: dotnet run &
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Setup Node.js
@@ -57,3 +70,4 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONNECTION_STRING: 'Server=localhost;port=3306;Database=housespotter;User=root;Password=mysecretpassword;'
