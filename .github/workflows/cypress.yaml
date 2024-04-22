@@ -37,8 +37,12 @@ jobs:
         run: dotnet restore
         working-directory: ./HouseSpotterInReact.Server
 
+      - name: Build ASP.NET Core application
+        run: dotnet build
+        working-directory: ./HouseSpotterInReact.Server
+
       - name: Start ASP.NET Core backend
-        run: nohup dotnet run > backend.log 2>&1 &
+        run: dotnet run --no-launch-profile --urls "http://localhost:5016" &
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Setup Node.js
@@ -51,10 +55,6 @@ jobs:
 
       - name: Remove node_modules
         run: rm -rf ./housespotterinreact.client/node_modules
-
-      - name: Forcefully remove node_modules
-        run: find ./housespotterinreact.client/node_modules -type d -exec rm -rf {} +
-        working-directory: ./housespotterinreact.client
 
       - name: Clean npm cache
         run: npm cache clean --force
@@ -69,7 +69,7 @@ jobs:
         working-directory: ./housespotterinreact.client
 
       - name: Start React frontend
-        run: nohup npm run dev > frontend.log 2>&1 &
+        run: npm run dev &
         working-directory: ./housespotterinreact.client
         env:
           CI: true
@@ -86,11 +86,3 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONNECTION_STRING: 'Server=localhost;port=3306;Database=housespotter;User=root;Password=mysecretpassword;'
-
-      - name: Display Backend Logs
-        if: failure() # Only run this step if previous steps failed
-        run: cat ./HouseSpotterInReact.Server/backend.log
-
-      - name: Display Frontend Logs
-        if: failure() # Only run this step if previous steps failed
-        run: cat ./housespotterinreact.client/frontend.log
