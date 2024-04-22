@@ -78,3 +78,11 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONNECTION_STRING: 'Server=localhost;port=3306;Database=housespotter;User=root;Password=mysecretpassword;'
+
+      - name: Display Backend Logs
+        if: failure() # Only run this step if previous steps failed
+        run: cat ./HouseSpotterInReact.Server/backend.log
+
+      - name: Display Frontend Logs
+        if: failure() # Only run this step if previous steps failed
+        run: cat ./housespotterinreact.client/frontend.log
