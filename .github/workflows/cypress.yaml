@@ -49,9 +49,6 @@ jobs:
       - name: Install latest npm
         run: npm install -g npm@latest
 
-      - name: Clean node_modules and package-lock.json
-        run: rm -rf node_modules package-lock.json
-
       - name: Remove node_modules
         run: rm -rf ./housespotterinreact.client/node_modules
 
