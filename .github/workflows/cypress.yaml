@@ -64,7 +64,7 @@ jobs:
         working-directory: ./housespotterinreact.client
 
       - name: Start React frontend
-        run: npm start &
+        run: npm run dev &
         working-directory: ./housespotterinreact.client
         env:
           CI: true
@@ -76,6 +76,7 @@ jobs:
           wait-on: 'http://localhost:5173' # Waits for backend to start
           record: true
           parallel: true
+        working-directory: ./housespotterinreact.client
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
