@@ -46,8 +46,8 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: Clear npm cache
-        run: npm cache clean --force
+      - name: Install latest npm
+        run: npm install -g npm@latest
 
       - name: Install Node.js dependencies
         run: npm install
