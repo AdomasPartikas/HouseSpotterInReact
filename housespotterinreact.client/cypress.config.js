@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 import cypressMochawesomeReporterPlugin from 'cypress-mochawesome-reporter/plugin.js';
 
 export default defineConfig({
-  projectId: '1wv25r',
+  projectId: 'r62v3o',
   reporter: 'mochawesome',
   reporterOptions: {
     reportDir: 'cypress/reports',
