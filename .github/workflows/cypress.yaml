@@ -38,7 +38,7 @@ jobs:
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Start ASP.NET Core backend
-        run: dotnet run &
+        run: nohup dotnet run > backend.log 2>&1 &
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Setup Node.js
@@ -61,7 +61,7 @@ jobs:
         working-directory: ./housespotterinreact.client
 
       - name: Start React frontend
-        run: npm run dev &
+        run: nohup npm run dev > frontend.log 2>&1 &
         working-directory: ./housespotterinreact.client
         env:
           CI: true
