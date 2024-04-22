@@ -69,7 +69,7 @@ jobs:
         working-directory: ./housespotterinreact.client
 
       - name: Start React frontend
-        run: npm run dev &
+        run: nohup npm run dev &
         working-directory: ./housespotterinreact.client
         env:
           CI: true
@@ -78,7 +78,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: '' # Since we have custom start steps, leave this empty
-          wait-on: 'https://localhost:5173' # Waits for backend to start
+          wait-on: 'https://localhost:5173/' # Waits for backend to start
           record: true
           parallel: true
           working-directory: ./housespotterinreact.client
