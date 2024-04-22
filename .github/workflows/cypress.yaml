@@ -25,7 +25,7 @@ jobs:
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Start ASP.NET Core backend
-        run: dotnet run --urls "http://localhost:5173" --environment "Development" &
+        run: dotnet run
         working-directory: ./HouseSpotterInReact.Server
 
       - name: Setup Node.js
