@@ -73,6 +73,7 @@ jobs:
           wait-on: 'http://localhost:5173' # Waits for backend to start
           record: true
           parallel: true
+          working-directory: ./housespotterinreact.client
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
