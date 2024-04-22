@@ -487,3 +487,6 @@ $RECYCLE.BIN/
 HouseSpotterInReact.Server/obj/
 HouseSpotterInReact.Server/bin/
 HouseSpotterInReact.Server/appsettings.Development.json
+
+housespotterinreact.client/cypress/screenshots/
+housespotterinreact.client/cypress/reports/
