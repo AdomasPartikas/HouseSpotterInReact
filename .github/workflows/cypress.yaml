@@ -46,6 +46,9 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install Node.js dependencies
         run: npm install
         working-directory: ./housespotterinreact.client
