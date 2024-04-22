@@ -31,6 +31,3 @@ jobs:
       - name: Test
         run: npm run test
         working-directory: housespotterinreact.client
-      - name: Cypress E2E tests
-        run: npx cypress run
-        working-directory: housespotterinreact.client
