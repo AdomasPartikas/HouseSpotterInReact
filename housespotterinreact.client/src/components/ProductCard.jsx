@@ -89,7 +89,7 @@ const ProductCard = ({ product }) => {
           {product.title ? product.title : "Neskelbiama"}
         </Link>
         <div className="product__scraper">
-          {product.link.includes("domoplius") ? "Domoplius" : product.link.includes("aruodas") ? "Aruodas" : "Skelbiu"}
+          {product.link == null ? " " : product.link.includes("domoplius") ? "Domoplius" : product.link.includes("aruodas") ? "Aruodas" : "Skelbiu"}
         </div>
         <button
           className={`product__favorite ${isInSavedSearches ? "active" : ""}`}
