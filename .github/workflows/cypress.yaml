@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '3.1' # Replace with your .NET Core version
+          dotnet-version: 8.0.x
 
       - name: Install .NET Core dependencies
         run: dotnet restore
@@ -31,7 +31,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' # Replace with your Node version
+          node-version: '18.x'
 
       - name: Install Node.js dependencies
         run: npm install
