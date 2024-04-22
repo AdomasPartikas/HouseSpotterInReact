@@ -52,6 +52,9 @@ jobs:
       - name: Clean node_modules and package-lock.json
         run: rm -rf node_modules package-lock.json
 
+      - name: Remove node_modules
+        run: rm -rf ./housespotterinreact.client/node_modules
+
       - name: Install Node.js dependencies
         run: npm ci
         working-directory: ./housespotterinreact.client
