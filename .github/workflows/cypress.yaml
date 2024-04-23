@@ -1,0 +1,88 @@
+name: Cypress Tests
+on:
+  push:
+    branches: [ "main", "dev"]
+  pull_request:
+    branches: [ "main", "dev"]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.21
+        env:
+          MYSQL_ROOT_PASSWORD: mysecretpassword
+          MYSQL_DATABASE: housespotter
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install .NET Core dependencies
+        run: dotnet restore
+        working-directory: ./HouseSpotterInReact.Server
+
+      - name: Build ASP.NET Core application
+        run: dotnet build
+        working-directory: ./HouseSpotterInReact.Server
+
+      - name: Start ASP.NET Core backend
+        run: dotnet run --no-launch-profile --urls "http://localhost:5016" &
+        working-directory: ./HouseSpotterInReact.Server
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+
+      - name: Install latest npm
+        run: npm install -g npm@latest
+
+      - name: Remove node_modules
+        run: rm -rf ./housespotterinreact.client/node_modules
+
+      - name: Clean npm cache
+        run: npm cache clean --force
+        working-directory: ./housespotterinreact.client
+
+      - name: Install Node.js dependencies
+        run: npm ci
+        working-directory: ./housespotterinreact.client
+
+      - name: Build React frontend
+        run: npm run build
+        working-directory: ./housespotterinreact.client
+
+      - name: Start React frontend
+        run: nohup npm run dev &
+        working-directory: ./housespotterinreact.client
+        env:
+          CI: true
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: '' # Since we have custom start steps, leave this empty
+          wait-on: 'https://localhost:5173/' # Waits for backend to start
+          record: true
+          parallel: true
+          working-directory: ./housespotterinreact.client
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONNECTION_STRING: 'Server=localhost;port=3306;Database=housespotter;User=root;Password=mysecretpassword;'
